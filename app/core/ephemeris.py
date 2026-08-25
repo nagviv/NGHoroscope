@@ -7,45 +7,29 @@ from app.core.divisional import compute_d9_navamsha, compute_d10_dashamsha
 def to_julian_day(dt: datetime, tz_offset_hours: float) -> float:
     decimal_hour = dt.hour + (dt.minute / 60.0) + (dt.second / 3600.0)
     utc_hour = decimal_hour - tz_offset_hours
-    
-    day = dt.day
-    month = dt.month
-    year = dt.year
-    
+    day, month, year = dt.day, dt.month, dt.year
     if utc_hour < 0.0:
         utc_hour += 24.0
         day -= 1
     elif utc_hour >= 24.0:
         utc_hour -= 24.0
         day += 1
-        
     return swe.julday(year, month, day, utc_hour)
-
 
 def calculate_nakshatra(longitude: float) -> Dict[str, Any]:
     nak_span = 360.0 / 27.0
     pada_span = nak_span / 4.0
     lon = longitude % 360.0
-    
     nak_idx = int(lon // nak_span)
     deg_in_nak = lon % nak_span
-    pada = int(deg_in_nak // pada_span) + 1
-    
     return {
         "name": NAKSHATRAS[nak_idx],
         "index": nak_idx,
-        "pada": pada,
+        "pada": int(deg_in_nak // pada_span) + 1,
         "progress_degrees": deg_in_nak
     }
 
-
-def compute_chart_raw(
-    birth_dt: datetime,
-    tz_offset: float,
-    latitude: float,
-    longitude: float,
-    ayanamsa: int = swe.SIDM_LAHIRI
-) -> Dict[str, Any]:
+def compute_chart_raw(birth_dt: datetime, tz_offset: float, latitude: float, longitude: float, ayanamsa: int = swe.SIDM_LAHIRI) -> Dict[str, Any]:
     swe.set_sid_mode(ayanamsa)
     jd_ut = to_julian_day(birth_dt, tz_offset)
     

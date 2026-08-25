@@ -12,15 +12,11 @@ def calculate_vimshottari(moon_longitude: float, birth_dt: datetime) -> List[Dic
     
     start_lord_idx = nak_idx % 9
     first_lord = DASHA_LORDS[start_lord_idx]
-    
-    traversed_ratio = deg_in_nak / nak_span
-    balance_years = DASHA_YEARS[first_lord] * (1.0 - traversed_ratio)
+    balance_years = DASHA_YEARS[first_lord] * (1.0 - (deg_in_nak / nak_span))
     
     timeline = []
     current_start = birth_dt
-    
-    first_duration_days = balance_years * DAYS_PER_YEAR
-    first_end = current_start + timedelta(days=first_duration_days)
+    first_end = current_start + timedelta(days=balance_years * DAYS_PER_YEAR)
     
     timeline.append({
         "lord": first_lord,
@@ -31,12 +27,10 @@ def calculate_vimshottari(moon_longitude: float, birth_dt: datetime) -> List[Dic
     })
     
     current_start = first_end
-    
     for i in range(1, 9):
         lord = DASHA_LORDS[(start_lord_idx + i) % 9]
         years = DASHA_YEARS[lord]
-        duration_days = years * DAYS_PER_YEAR
-        end_date = current_start + timedelta(days=duration_days)
+        end_date = current_start + timedelta(days=years * DAYS_PER_YEAR)
         
         antardashas = []
         ad_start = current_start
@@ -45,9 +39,7 @@ def calculate_vimshottari(moon_longitude: float, birth_dt: datetime) -> List[Dic
         for j in range(9):
             ad_lord = DASHA_LORDS[(ad_start_idx + j) % 9]
             ad_years = (years * DASHA_YEARS[ad_lord]) / 120.0
-            ad_duration_days = ad_years * DAYS_PER_YEAR
-            ad_end = ad_start + timedelta(days=ad_duration_days)
-            
+            ad_end = ad_start + timedelta(days=ad_years * DAYS_PER_YEAR)
             antardashas.append({
                 "lord": ad_lord,
                 "start_date": ad_start.isoformat(),
@@ -69,11 +61,8 @@ def calculate_vimshottari(moon_longitude: float, birth_dt: datetime) -> List[Dic
     return timeline
 
 def get_active_dasha(dasha_tree: List[Dict[str, Any]], target_dt: datetime) -> Dict[str, str]:
-    """Finds the active Mahadasha and Antardasha for a given target date."""
     target_iso = target_dt.isoformat()
-    active_md = "Unknown"
-    active_ad = "Unknown"
-    
+    active_md, active_ad = "Unknown", "Unknown"
     for md in dasha_tree:
         if md["start_date"] <= target_iso <= md["end_date"]:
             active_md = md["lord"]
@@ -83,5 +72,4 @@ def get_active_dasha(dasha_tree: List[Dict[str, Any]], target_dt: datetime) -> D
                         active_ad = ad["lord"]
                         break
             break
-            
     return {"mahadasha": active_md, "antardasha": active_ad}

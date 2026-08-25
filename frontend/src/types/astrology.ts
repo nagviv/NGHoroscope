@@ -1,0 +1,64 @@
+export interface EntityPosition {
+  longitude: number;
+  sign: string;
+  sign_index: number;
+  degree_in_sign: number;
+  nakshatra: string;
+  pada: number;
+  d9_sign: string;
+  d10_sign: string;
+}
+
+export interface PlanetPosition extends EntityPosition {
+  is_retrograde: boolean;
+  speed: number;
+  house: number;
+}
+
+export interface AntardashaItem {
+  lord: string;
+  start_date: string;
+  end_date: string;
+  duration_months: number;
+}
+
+export interface MahadashaItem {
+  lord: string;
+  start_date: string;
+  end_date: string;
+  duration_years: number;
+  is_balance: boolean;
+  antardashas?: AntardashaItem[];
+}
+
+export interface YogaItem {
+  name: string;
+  category: string;
+  description: string;
+}
+
+export interface NatalChartResponse {
+  ascendant: EntityPosition;
+  planets: Record<string, PlanetPosition>;
+  vargas: Record<string, Record<string, string>>;
+  vimshottari_dasha: MahadashaItem[];
+  yogas: YogaItem[];
+  doshas: {
+    mangal_dosha: { is_present: boolean; severity: string; cancellation_reasons: string[] };
+    sade_sati: { is_active: boolean; phase: string; description: string };
+    kaal_sarp: { is_present: boolean; type: string };
+  };
+  ashtakavarga: {
+    total_bindus: number;
+    sav_by_rashi: Record<string, number>;
+  };
+}
+
+export interface AIAnswerResponse {
+  question: string;
+  category: string;
+  active_dasha: { mahadasha: string; antardasha: string };
+  astrological_factors: string[];
+  analysis: string;
+  practical_remedies: string[];
+}

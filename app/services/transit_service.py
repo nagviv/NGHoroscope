@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Dict, Any
 from app.models.requests import TransitRequest
 from app.models.responses import TransitResponse
 from app.core.ephemeris import compute_chart_raw
@@ -18,21 +17,14 @@ class TransitService:
         asc_sign_idx = natal_chart["ascendant"]["sign_index"]
         moon_sign_idx = natal_chart["planets"]["Moon"]["sign_index"]
         
-        from_lagna = {}
-        from_moon = {}
-        
-        for p, d in transit_chart["planets"].items():
-            t_sign_idx = d["sign_index"]
-            from_lagna[p] = ((t_sign_idx - asc_sign_idx) % 12) + 1
-            from_moon[p] = ((t_sign_idx - moon_sign_idx) % 12) + 1
-            
+        from_lagna = {p: ((d["sign_index"] - asc_sign_idx) % 12) + 1 for p, d in transit_chart["planets"].items()}
+        from_moon = {p: ((d["sign_index"] - moon_sign_idx) % 12) + 1 for p, d in transit_chart["planets"].items()}
         saturn_transit_sign = transit_chart["planets"]["Saturn"]["sign_index"]
-        sade_sati = check_sade_sati(moon_sign_idx, saturn_transit_sign)
         
         return TransitResponse(
             transit_date=target_dt.strftime("%Y-%m-%d"),
             transit_planets=transit_chart["planets"],
             transits_from_lagna=from_lagna,
             transits_from_moon=from_moon,
-            sade_sati_status=sade_sati
+            sade_sati_status=check_sade_sati(moon_sign_idx, saturn_transit_sign)
         )

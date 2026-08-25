@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  background-color: #090D16;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}

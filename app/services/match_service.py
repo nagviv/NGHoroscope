@@ -22,7 +22,6 @@ class MatchService:
         
         ashtakoota_res = calculate_ashtakoota(b_moon_sign, b_nak_idx, g_moon_sign, g_nak_idx)
         score = ashtakoota_res["total_score"]
-        
         overall = "Excellent Compatibility" if (score >= 24 and ashtakoota_res["is_recommended"]) else ("Good / Auspicious Alignment" if (score >= 18 and ashtakoota_res["is_recommended"]) else "Requires Remedial Measures")
         
         return MatchMakingResponse(
