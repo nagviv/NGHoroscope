@@ -12,6 +12,8 @@ class User(Base):
     name = Column(String, nullable=False)
     phone_number = Column(String, default="")
     notifications_enabled = Column(Boolean, default=True)
+    subscription_tier = Column(String, default="Free")
+    ai_credits = Column(Integer, default=5)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     profiles = relationship("SavedProfile", back_populates="owner", cascade="all, delete-orphan")

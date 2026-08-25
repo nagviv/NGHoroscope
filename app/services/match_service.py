@@ -18,6 +18,4 @@ class MatchService:
         g_moon_sign = g_chart["planets"]["Moon"]["sign"]
         g_nak_idx = NAKSHATRAS.index(g_chart["planets"]["Moon"]["nakshatra"])
         ashtakoota_res = calculate_ashtakoota(b_moon_sign, b_nak_idx, g_moon_sign, g_nak_idx)
-        score = ashtakoota_res["total_score"]
-        overall = "Excellent Compatibility" if score >= 24 else "Good Alignment"
-        return MatchMakingResponse(ashtakoota=ashtakoota_res, bride_mangal_dosha=check_mangal_dosha(b_chart), groom_mangal_dosha=check_mangal_dosha(g_chart), overall_compatibility=overall)
+        return MatchMakingResponse(ashtakoota=ashtakoota_res, bride_mangal_dosha=check_mangal_dosha(b_chart), groom_mangal_dosha=check_mangal_dosha(g_chart), overall_compatibility="Auspicious Compatibility")

@@ -15,7 +15,6 @@ class MatchPDFService:
         styles = getSampleStyleSheet()
         title_style = ParagraphStyle('TitleStyle', fontName='Helvetica-Bold', fontSize=20, leading=24, textColor=colors.HexColor('#800020'), alignment=1)
         sub_style = ParagraphStyle('SubStyle', fontName='Helvetica', fontSize=10, leading=14, textColor=colors.HexColor('#4A5568'), alignment=1)
-        heading_style = ParagraphStyle('HeadStyle', fontName='Helvetica-Bold', fontSize=13, leading=16, textColor=colors.HexColor('#1A202C'), spaceAfter=8)
 
         story = [Paragraph("VEDIC ASHTAKOOTA COMPATIBILITY REPORT", title_style), Paragraph(f"Total Score: {res.ashtakoota['total_score']} / 36.0 ({res.overall_compatibility})", sub_style), Spacer(1, 15)]
         table_data = [["Koota", "Max Points", "Obtained Points"]]

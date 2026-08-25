@@ -18,30 +18,10 @@ class ChartService:
         dasha_tree = calculate_vimshottari(moon_lon, birth_dt)
         yogas = detect_yogas(raw)
         saturn_sign_idx = raw["planets"]["Saturn"]["sign_index"]
-        
-        doshas = {
-            "mangal_dosha": check_mangal_dosha(raw),
-            "sade_sati": check_sade_sati(moon_sign_idx, saturn_sign_idx),
-            "kaal_sarp": check_kaal_sarp_dosha(raw)
-        }
+        doshas = {"mangal_dosha": check_mangal_dosha(raw), "sade_sati": check_sade_sati(moon_sign_idx, saturn_sign_idx), "kaal_sarp": check_kaal_sarp_dosha(raw)}
         ashtakavarga = calculate_ashtakavarga(raw)
         shadbala = calculate_shadbala_summary(raw)
-        
-        v_d1 = {"Ascendant": raw["ascendant"]["sign"]}
-        v_d9 = {"Ascendant": raw["ascendant"]["d9_sign"]}
-        v_d10 = {"Ascendant": raw["ascendant"]["d10_sign"]}
-        for p, d in raw["planets"].items():
-            v_d1[p] = d["sign"]
-            v_d9[p] = d["d9_sign"]
-            v_d10[p] = d["d10_sign"]
-            
-        return NatalChartResponse(
-            ascendant=raw["ascendant"],
-            planets=raw["planets"],
-            vargas={"D1_Rashi": v_d1, "D9_Navamsha": v_d9, "D10_Dashamsha": v_d10},
-            vimshottari_dasha=dasha_tree,
-            yogas=yogas,
-            doshas=doshas,
-            ashtakavarga=ashtakavarga,
-            shadbala=shadbala
-        )
+        v_d1 = {"Ascendant": raw["ascendant"]["sign"], **{p: d["sign"] for p, d in raw["planets"].items()}}
+        v_d9 = {"Ascendant": raw["ascendant"]["d9_sign"], **{p: d["d9_sign"] for p, d in raw["planets"].items()}}
+        v_d10 = {"Ascendant": raw["ascendant"]["d10_sign"], **{p: d["d10_sign"] for p, d in raw["planets"].items()}}
+        return NatalChartResponse(ascendant=raw["ascendant"], planets=raw["planets"], vargas={"D1_Rashi": v_d1, "D9_Navamsha": v_d9, "D10_Dashamsha": v_d10}, vimshottari_dasha=dasha_tree, yogas=yogas, doshas=doshas, ashtakavarga=ashtakavarga, shadbala=shadbala)

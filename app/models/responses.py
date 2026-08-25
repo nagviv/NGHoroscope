@@ -21,7 +21,6 @@ class ProfileResponse(BaseModel):
     latitude: float
     longitude: float
     location_name: str
-
     class Config:
         from_attributes = True
 
@@ -153,3 +152,17 @@ class VarshaphalaResponse(BaseModel):
     panchadhikaris: Dict[str, str]
     varsheshwara: str
     tajika_yogas: List[Dict[str, Any]]
+
+class SBCResponse(BaseModel):
+    transit_date: str
+    sensitive_nakshatras: Dict[str, str]
+    active_vedhas: List[Dict[str, Any]]
+    defense_verdict: str
+
+class KotaResponse(BaseModel):
+    transit_date: str
+    kota_swami: str
+    kota_pala_nakshatra: str
+    fortress_zones: Dict[str, List[str]]
+    stambha_siege_malefics: List[str]
+    defense_status: str

@@ -104,6 +104,22 @@ export interface VarshaphalaResponse {
   tajika_yogas: { name: string; planets: string; nature: string; description: string }[];
 }
 
+export interface SBCResponse {
+  transit_date: string;
+  sensitive_nakshatras: Record<string, string>;
+  active_vedhas: { planet: string; nature: string; transit_nakshatra: string; target_sensitive_point: string; vedha_type: string; impact: string }[];
+  defense_verdict: string;
+}
+
+export interface KotaResponse {
+  transit_date: string;
+  kota_swami: string;
+  kota_pala_nakshatra: string;
+  fortress_zones: Record<string, string[]>;
+  stambha_siege_malefics: string[];
+  defense_status: string;
+}
+
 export interface MatchMakingResponse {
   ashtakoota: {
     total_score: number;

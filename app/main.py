@@ -12,7 +12,7 @@ from app.models.requests import (
 )
 from app.models.responses import (
     NatalChartResponse, MatchMakingResponse, AIAnswerResponse, TransitResponse,
-    PanchangResponse, JaiminiResponse, KPResponse, MuhurtaResponse, UserAuthResponse, ProfileResponse, KakshyaResponse, VarshaphalaResponse
+    PanchangResponse, JaiminiResponse, KPResponse, MuhurtaResponse, UserAuthResponse, ProfileResponse, KakshyaResponse, VarshaphalaResponse, SBCResponse, KotaResponse
 )
 from app.services.chart_service import ChartService
 from app.services.match_service import MatchService
@@ -26,13 +26,15 @@ from app.services.kp_service import KPService
 from app.services.muhurta_service import MuhurtaService
 from app.services.kakshya_service import KakshyaService
 from app.services.varshaphala_service import VarshaphalaService
+from app.core.sbc import calculate_sarvatobhadra_chakra
+from app.core.kota import calculate_kota_chakra
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Jyotish Platform API (Vedic, KP, Jaimini, Tajika & Workers)",
-    description="Comprehensive Astrological Engine with Varshaphala Annual Horoscopes",
-    version="14.0.0"
+    title="Jyotish Ultimate Platform API",
+    description="Comprehensive Astrological Engine with Sarvatobhadra & Kota Chakra",
+    version="15.0.0"
 )
 
 app.add_middleware(
@@ -45,7 +47,7 @@ app.add_middleware(
 
 @app.get("/health", tags=["Status"])
 def health_check():
-    return {"status": "healthy", "version": "14.0.0", "service": "jyotish-complete-engine"}
+    return {"status": "healthy", "version": "15.0.0", "service": "jyotish-ultimate-engine"}
 
 # AUTH & PROFILES
 @app.post("/api/v1/auth/register", response_model=UserAuthResponse, tags=["Auth"])
@@ -85,9 +87,24 @@ def save_profile(payload: SaveProfileRequest, user: User = Depends(get_current_u
 def create_natal_chart(payload: BirthDetailsRequest):
     return ChartService.generate_natal_chart(payload)
 
+@app.post("/api/v1/chart/sbc", response_model=SBCResponse, tags=["Chakras"])
+def get_sarvatobhadra_chakra(payload: TransitRequest):
+    """Calculates Sarvatobhadra Chakra 81-Square Grid and Vedha Piercing Aspects."""
+    b = payload.birth_details
+    birth_dt = datetime(b.year, b.month, b.day, b.hour, b.minute, b.second)
+    target_dt = datetime(payload.target_year, payload.target_month, payload.target_day, 12, 0, 0)
+    return calculate_sarvatobhadra_chakra(birth_dt, target_dt, b.timezone_offset, b.latitude, b.longitude)
+
+@app.post("/api/v1/chart/kota", response_model=KotaResponse, tags=["Chakras"])
+def get_kota_chakra(payload: TransitRequest):
+    """Calculates Kota Chakra 4-Zone Fortress Defense System."""
+    b = payload.birth_details
+    birth_dt = datetime(b.year, b.month, b.day, b.hour, b.minute, b.second)
+    target_dt = datetime(payload.target_year, payload.target_month, payload.target_day, 12, 0, 0)
+    return calculate_kota_chakra(birth_dt, target_dt, b.timezone_offset, b.latitude, b.longitude)
+
 @app.post("/api/v1/chart/varshaphala", response_model=VarshaphalaResponse, tags=["Varshaphala"])
 def get_varshaphala_annual_chart(payload: VarshaphalaRequest):
-    """Calculates Tajika Solar Return Annual Chart, Muntha, Varsheshwara, and Tajika Yogas."""
     return VarshaphalaService.calculate_annual_chart(payload)
 
 @app.post("/api/v1/chart/kakshya", response_model=KakshyaResponse, tags=["Ashtakavarga"])

@@ -9,13 +9,4 @@ class VarshaphalaService:
         b = req.birth_details
         birth_dt = datetime(b.year, b.month, b.day, b.hour, b.minute, b.second)
         res = calculate_varshaphala(birth_dt, req.target_year, b.timezone_offset, b.latitude, b.longitude)
-        return VarshaphalaResponse(
-            target_year=res["target_year"],
-            solar_return_date=res["solar_return_date"],
-            varsha_ascendant=res["varsha_ascendant"],
-            varsha_planets=res["varsha_planets"],
-            muntha=res["muntha"],
-            panchadhikaris=res["panchadhikaris"],
-            varsheshwara=res["varsheshwara"],
-            tajika_yogas=res["tajika_yogas"]
-        )
+        return VarshaphalaResponse(target_year=res["target_year"], solar_return_date=res["solar_return_date"], varsha_ascendant=res["varsha_ascendant"], varsha_planets=res["varsha_planets"], muntha=res["muntha"], panchadhikaris=res["panchadhikaris"], varsheshwara=res["varsheshwara"], tajika_yogas=res["tajika_yogas"])

@@ -6,7 +6,8 @@ from app.core.kakshya import calculate_kakshya_transits
 class KakshyaService:
     @staticmethod
     def calculate_kakshya_system(req: TransitRequest) -> KakshyaResponse:
-        birth_dt = datetime(req.birth_details.year, req.birth_details.month, req.birth_details.day, req.birth_details.hour, req.birth_details.minute, req.birth_details.second)
+        b = req.birth_details
+        birth_dt = datetime(b.year, b.month, b.day, b.hour, b.minute, b.second)
         target_dt = datetime(req.target_year, req.target_month, req.target_day, 12, 0, 0)
-        res = calculate_kakshya_transits(birth_dt, target_dt, req.birth_details.timezone_offset, req.birth_details.latitude, req.birth_details.longitude)
+        res = calculate_kakshya_transits(birth_dt, target_dt, b.timezone_offset, b.latitude, b.longitude)
         return KakshyaResponse(transit_date=res["transit_date"], kakshya_transits=res["kakshya_transits"])
