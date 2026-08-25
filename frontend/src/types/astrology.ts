@@ -46,6 +46,22 @@ export interface JaiminiResponse {
   chara_dasha: { sign: string; lord: string; duration_years: number; start_date: string; end_date: string }[];
 }
 
+export interface SavedProfile {
+  id: number;
+  name: string;
+  relationship_label: string;
+  year: number;
+  month: number;
+  day: number;
+  hour: number;
+  minute: number;
+  second: number;
+  timezone_offset: number;
+  latitude: number;
+  longitude: number;
+  location_name: string;
+}
+
 export interface AIAnswerResponse {
   question: string;
   category: string;

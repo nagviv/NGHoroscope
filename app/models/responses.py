@@ -1,6 +1,30 @@
 from typing import Dict, List, Optional, Any
 from pydantic import BaseModel
 
+class UserAuthResponse(BaseModel):
+    access_token: str
+    token_type: str
+    name: str
+    email: str
+
+class ProfileResponse(BaseModel):
+    id: int
+    name: str
+    relationship_label: str
+    year: int
+    month: int
+    day: int
+    hour: int
+    minute: int
+    second: int
+    timezone_offset: float
+    latitude: float
+    longitude: float
+    location_name: str
+
+    class Config:
+        from_attributes = True
+
 class EntityPosition(BaseModel):
     longitude: float
     sign: str

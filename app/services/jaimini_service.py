@@ -9,10 +9,8 @@ class JaiminiService:
     def calculate_jaimini_system(req: BirthDetailsRequest) -> JaiminiResponse:
         birth_dt = datetime(req.year, req.month, req.day, req.hour, req.minute, req.second)
         raw = compute_chart_raw(birth_dt, req.timezone_offset, req.latitude, req.longitude)
-        
         karaka_data = calculate_chara_karakas(raw)
         chara_dasha = calculate_chara_dasha_timeline(raw, birth_dt)
-        
         return JaiminiResponse(
             karakas=karaka_data["karakas"],
             atmakaraka_planet=karaka_data["atmakaraka_planet"],
