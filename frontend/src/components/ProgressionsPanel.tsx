@@ -4,16 +4,16 @@ import { Orbit, Zap } from 'lucide-react';
 
 export const ProgressionsPanel: React.FC<{ data: ProgressionResponse }> = ({ data }) => {
   return (
-    <div className="bg-slate-900 border border-amber-500/30 rounded-2xl p-6 space-y-6">
+    <div className="bg-slate-900 border border-amber-500/30 rounded-2xl p-6 space-y-6 shadow-xl">
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-lg font-bold font-cinzel text-amber-300 flex items-center gap-2">
             <Orbit className="w-5 h-5 text-amber-400" /> Secondary Progressions & Solar Arc
           </h3>
-          <p className="text-xs text-slate-400">Day-for-a-Year Progressed Positions & Major Life Milestone Aspects</p>
+          <p className="text-xs text-slate-400">Target Year: {data?.target_year} | Progressed Age: {data?.progressed_age}y</p>
         </div>
         <span className="text-xs text-amber-300 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/30">
-          Age: {data.progressed_age}y | Solar Arc: +{data.solar_arc_degrees}°
+          Solar Arc: +{data?.solar_arc_degrees}°
         </span>
       </div>
 
@@ -22,7 +22,7 @@ export const ProgressionsPanel: React.FC<{ data: ProgressionResponse }> = ({ dat
           <Zap className="w-3.5 h-3.5 text-amber-400" /> Active Progressed-to-Natal Aspects (1° Orb)
         </h4>
 
-        {data.progressed_aspects.length === 0 ? (
+        {(!data?.progressed_aspects || data.progressed_aspects.length === 0) ? (
           <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-slate-400">
             No exact major progressed aspects active for this year.
           </div>
