@@ -8,18 +8,17 @@ def test_health():
     assert res.status_code == 200
     assert res.json()["status"] == "healthy"
 
-def test_matchmaking_pdf():
+def test_varshaphala():
     payload = {
-        "bride": {
-            "year": 1996, "month": 5, "day": 10, "hour": 10, "minute": 15, "second": 0,
-            "timezone_offset": 5.5, "latitude": 28.6139, "longitude": 77.2090
+        "birth_details": {
+            "year": 1995, "month": 8, "day": 15, "hour": 14, "minute": 30, "second": 0,
+            "timezone_offset": 5.5, "latitude": 17.3850, "longitude": 78.4867
         },
-        "groom": {
-            "year": 1994, "month": 11, "day": 20, "hour": 18, "minute": 45, "second": 0,
-            "timezone_offset": 5.5, "latitude": 19.0760, "longitude": 72.8777
-        }
+        "target_year": 2026
     }
-    res = client.post("/api/v1/matchmaking/pdf", json=payload)
+    res = client.post("/api/v1/chart/varshaphala", json=payload)
     assert res.status_code == 200
-    assert res.headers["content-type"] == "application/pdf"
-    assert len(res.content) > 1000
+    data = res.json()
+    assert "muntha" in data
+    assert "varsheshwara" in data
+    assert "varsha_ascendant" in data

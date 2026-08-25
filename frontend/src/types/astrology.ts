@@ -93,6 +93,17 @@ export interface KakshyaResponse {
   }>;
 }
 
+export interface VarshaphalaResponse {
+  target_year: number;
+  solar_return_date: string;
+  varsha_ascendant: EntityPosition;
+  varsha_planets: Record<string, PlanetPosition>;
+  muntha: { sign: string; sign_index: number; lord: string; completed_years: number };
+  panchadhikaris: Record<string, string>;
+  varsheshwara: string;
+  tajika_yogas: { name: string; planets: string; nature: string; description: string }[];
+}
+
 export interface MatchMakingResponse {
   ashtakoota: {
     total_score: number;

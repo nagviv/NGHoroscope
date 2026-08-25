@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NatalChartResponse, JaiminiResponse, KPResponse, MuhurtaResponse, KakshyaResponse, MatchMakingResponse } from './types/astrology';
+import { NatalChartResponse, JaiminiResponse, KPResponse, MuhurtaResponse, KakshyaResponse, MatchMakingResponse, VarshaphalaResponse } from './types/astrology';
 import { translations, Language } from './utils/i18n';
 import { NorthIndianChart } from './components/NorthIndianChart';
 import { SouthIndianChart } from './components/SouthIndianChart';
@@ -9,6 +9,7 @@ import { KPPanel } from './components/KPPanel';
 import { MuhurtaPanel } from './components/MuhurtaPanel';
 import { KakshyaPanel } from './components/KakshyaPanel';
 import { SynastryPanel } from './components/SynastryPanel';
+import { VarshaphalaPanel } from './components/VarshaphalaPanel';
 import { AIQuestionPanel } from './components/AIQuestionPanel';
 import { Download, Loader2, Globe } from 'lucide-react';
 
@@ -26,7 +27,7 @@ export default function App() {
     groom: { year: 1994, month: 11, day: 20, hour: 18, minute: 45, second: 0, timezone_offset: 5.5, latitude: 19.0760, longitude: 72.8777 }
   });
 
-  const [activeTab, setActiveTab] = useState<'Parashara' | 'KP' | 'Jaimini' | 'Muhurta' | 'Kakshya' | 'Synastry'>('Parashara');
+  const [activeTab, setActiveTab] = useState<'Parashara' | 'KP' | 'Jaimini' | 'Muhurta' | 'Kakshya' | 'Synastry' | 'Varshaphala'>('Parashara');
   const [chartStyle, setChartStyle] = useState<'North' | 'South' | 'East'>('North');
   const [chartData, setChartData] = useState<NatalChartResponse | null>(null);
   const [jaiminiData, setJaiminiData] = useState<JaiminiResponse | null>(null);
@@ -34,6 +35,7 @@ export default function App() {
   const [muhurtaData, setMuhurtaData] = useState<MuhurtaResponse | null>(null);
   const [kakshyaData, setKakshyaData] = useState<KakshyaResponse | null>(null);
   const [synastryData, setSynastryData] = useState<MatchMakingResponse | null>(null);
+  const [varshaphalaData, setVarshaphalaData] = useState<VarshaphalaResponse | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [downloadingMatch, setDownloadingMatch] = useState(false);
 
@@ -55,6 +57,9 @@ export default function App() {
 
     fetch('/api/v1/matchmaking/ashtakoota', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(matchPayload) })
       .then(res => res.json()).then(data => setSynastryData(data));
+
+    fetch('/api/v1/chart/varshaphala', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ birth_details: formData, target_year: 2026 }) })
+      .then(res => res.json()).then(data => setVarshaphalaData(data));
   }, []);
 
   const downloadPDF = async () => {
@@ -124,7 +129,7 @@ export default function App() {
           </button>
           
           <div className="flex gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs">
-            {(['Parashara', 'KP', 'Jaimini', 'Muhurta', 'Kakshya', 'Synastry'] as const).map(tab => (
+            {(['Parashara', 'KP', 'Jaimini', 'Muhurta', 'Kakshya', 'Synastry', 'Varshaphala'] as const).map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)} className={`px-3 py-1.5 rounded-lg ${activeTab === tab ? 'bg-amber-500 text-slate-950 font-bold' : 'text-slate-400'}`}>
                 {t[tab.toLowerCase() as keyof typeof t] || tab}
               </button>
@@ -151,6 +156,7 @@ export default function App() {
           {activeTab === 'Muhurta' && muhurtaData && <MuhurtaPanel data={muhurtaData} />}
           {activeTab === 'Kakshya' && kakshyaData && <KakshyaPanel data={kakshyaData} />}
           {activeTab === 'Synastry' && synastryData && <SynastryPanel data={synastryData} onExportPDF={downloadMatchPDF} isDownloading={downloadingMatch} />}
+          {activeTab === 'Varshaphala' && varshaphalaData && <VarshaphalaPanel data={varshaphalaData} />}
         </div>
         <div className="lg:col-span-6 space-y-6">
           <AIQuestionPanel birthDetails={formData} />

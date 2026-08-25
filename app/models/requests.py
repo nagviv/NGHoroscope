@@ -12,6 +12,10 @@ class BirthDetailsRequest(BaseModel):
     latitude: float = Field(..., ge=-90.0, le=90.0, example=17.3850)
     longitude: float = Field(..., ge=-180.0, le=180.0, example=78.4867)
 
+class VarshaphalaRequest(BaseModel):
+    birth_details: BirthDetailsRequest
+    target_year: int = Field(..., example=2026)
+
 class MuhurtaRequest(BaseModel):
     year: int = Field(..., example=2026)
     month: int = Field(..., ge=1, le=12, example=8)

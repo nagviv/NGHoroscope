@@ -6,12 +6,9 @@ export const KakshyaPanel: React.FC<{ data: KakshyaResponse }> = ({ data }) => {
   return (
     <div className="bg-slate-900 border border-amber-500/30 rounded-2xl p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <div>
-          <h3 className="text-lg font-bold font-cinzel text-amber-300 flex items-center gap-2">
-            <Target className="w-5 h-5 text-amber-400" /> Ashtakavarga Kakshya Transit Timing
-          </h3>
-          <p className="text-xs text-slate-400">8 Equal Sub-divisions (3°45' each) per Sign for Precision Event Timing</p>
-        </div>
+        <h3 className="text-lg font-bold font-cinzel text-amber-300 flex items-center gap-2">
+          <Target className="w-5 h-5 text-amber-400" /> Ashtakavarga Kakshya Timing
+        </h3>
         <span className="text-xs text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
           {data.transit_date}
         </span>
@@ -30,7 +27,6 @@ export const KakshyaPanel: React.FC<{ data: KakshyaResponse }> = ({ data }) => {
                 {details.fructification_status}
               </span>
             </div>
-
             <div className="mt-3 pt-2 border-t border-slate-800/80 flex justify-between text-xs">
               <span className="text-slate-400">Kakshya {details.kakshya_number} ({details.kakshya_lord})</span>
               <span className="font-mono text-amber-300">{details.kakshya_span}</span>

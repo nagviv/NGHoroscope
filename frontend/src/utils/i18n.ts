@@ -3,7 +3,7 @@ export type Language = 'en' | 'hi' | 'te' | 'ta' | 'sa';
 export const translations: Record<Language, Record<string, string>> = {
   en: {
     appTitle: "JYOTISH PLATFORM",
-    subtitle: "Parashara, Jaimini, KP, Muhurta & Synastry Matchmaking",
+    subtitle: "Parashara, Jaimini, KP, Tajika Varshaphala & Synastry",
     exportPdf: "Export PDF",
     exportMatchPdf: "Export Synastry PDF",
     parashara: "Parashara",
@@ -11,11 +11,12 @@ export const translations: Record<Language, Record<string, string>> = {
     jaimini: "Jaimini",
     muhurta: "Muhurta",
     kakshya: "Kakshya",
-    synastry: "Matchmaking"
+    synastry: "Matchmaking",
+    varshaphala: "Varshaphala"
   },
   hi: {
     appTitle: "ज्योतिष मंच",
-    subtitle: "पाराशरी, जैमिनी, केपी, मुहूर्त एवं कुंडली मिलान",
+    subtitle: "पाराशरी, जैमिनी, केपी, ताजिक वर्षफल एवं मिलान",
     exportPdf: "पीडीएफ निर्यात",
     exportMatchPdf: "मिलान रिपोर्ट निर्यात",
     parashara: "पाराशरी",
@@ -23,11 +24,12 @@ export const translations: Record<Language, Record<string, string>> = {
     jaimini: "जैमिनी",
     muhurta: "मुहूर्त",
     kakshya: "कक्षा",
-    synastry: "कुंडली मिलान"
+    synastry: "कुंडली मिलान",
+    varshaphala: "वर्षफल"
   },
   te: {
     appTitle: "జ్యోతిష వేదిక",
-    subtitle: "పరాశర, జైమిని, కేపీ, ముహూర్తం మరియు జాతక పొంతన",
+    subtitle: "పరాశర, జైమిని, కేపీ, తాజిక వర్షఫలం మరియు పొంతన",
     exportPdf: "పీడీఎఫ్ డౌన్‌లోడ్",
     exportMatchPdf: "పొంతన పీడీఎఫ్",
     parashara: "పరాశర",
@@ -35,11 +37,12 @@ export const translations: Record<Language, Record<string, string>> = {
     jaimini: "జైమిని",
     muhurta: "ముహూర్తం",
     kakshya: "కక్ష్య",
-    synastry: "పొంతన"
+    synastry: "పొంతన",
+    varshaphala: "వర్షఫలం"
   },
   ta: {
     appTitle: "ஜோதிட தளம்",
-    subtitle: "வேத, ஜைமினி, கேபி மற்றும் திருமண பொருத்தம்",
+    subtitle: "வேத, ஜைமினி, கேபி மற்றும் ஆண்டு பலன்",
     exportPdf: "பிடிஎஃப் பதிவிறக்கம்",
     exportMatchPdf: "பொருத்தம் பிடிஎஃப்",
     parashara: "பராசர",
@@ -47,11 +50,12 @@ export const translations: Record<Language, Record<string, string>> = {
     jaimini: "ஜைமினி",
     muhurta: "முகூர்த்தம்",
     kakshya: "கக்ஷியா",
-    synastry: "பொருத்தம்"
+    synastry: "பொருத்தம்",
+    varshaphala: "வருட பலன்"
   },
   sa: {
     appTitle: "ज्योतिषशास्त्रम्",
-    subtitle: "पाराशरीय-जैमिनीय-केपी-गुणमेलनविधानम्",
+    subtitle: "पाराशरीय-जैमिनीय-केपी-ताजिकवर्षफलविधानम्",
     exportPdf: "विवरणपत्रम्",
     exportMatchPdf: "मेलनपत्रम्",
     parashara: "पाराशरी",
@@ -59,6 +63,7 @@ export const translations: Record<Language, Record<string, string>> = {
     jaimini: "जैमिनी",
     muhurta: "शुभमुहूर्तः",
     kakshya: "कक्ष्या",
-    synastry: "गुणमेलनम्"
+    synastry: "गुणमेलनम्",
+    varshaphala: "वर्षफलम्"
   }
 };

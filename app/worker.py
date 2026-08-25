@@ -16,10 +16,6 @@ celery_app.conf.update(
         "send-daily-horoscope-morning": {
             "task": "app.worker.dispatch_daily_astrological_digest",
             "schedule": crontab(hour=6, minute=30),
-        },
-        "check-dasha-changes-weekly": {
-            "task": "app.worker.check_dasha_transitions",
-            "schedule": crontab(day_of_week="monday", hour=7, minute=0),
         }
     }
 )
@@ -42,22 +38,5 @@ def dispatch_daily_astrological_digest():
             if primary_profile:
                 NotificationService.send_daily_digest(user, primary_profile, now)
         return {"status": "success", "processed_users": len(users)}
-    finally:
-        db.close()
-
-@celery_app.task
-def check_dasha_transitions():
-    from app.db import SessionLocal
-    from app.models.entities import User, SavedProfile
-    from app.services.notification_service import NotificationService
-
-    db = SessionLocal()
-    try:
-        profiles = db.query(SavedProfile).all()
-        now = datetime.now(timezone.utc)
-        alerts_sent = 0
-        for p in profiles:
-            alerts_sent += NotificationService.check_and_notify_transitions(p, now)
-        return {"status": "success", "alerts_sent": alerts_sent}
     finally:
         db.close()

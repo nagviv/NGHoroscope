@@ -1,6 +1,6 @@
 import React from 'react';
 import { MatchMakingResponse } from '../types/astrology';
-import { HeartHandshake, ShieldCheck, Download } from 'lucide-react';
+import { HeartHandshake, Download } from 'lucide-react';
 
 export const SynastryPanel: React.FC<{ data: MatchMakingResponse; onExportPDF: () => void; isDownloading: boolean }> = ({ data, onExportPDF, isDownloading }) => {
   return (
@@ -22,22 +22,17 @@ export const SynastryPanel: React.FC<{ data: MatchMakingResponse; onExportPDF: (
         </button>
       </div>
 
-      {/* Score Card */}
       <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 flex justify-between items-center">
         <div>
-          <span className="text-xs text-slate-400 uppercase tracking-wider block">Total Score Obtained</span>
+          <span className="text-xs text-slate-400 uppercase tracking-wider block">Total Score</span>
           <span className="text-2xl font-bold font-cinzel text-amber-300">{data.ashtakoota.total_score} / 36.0</span>
           <span className="text-xs text-emerald-400 block mt-0.5">{data.overall_compatibility}</span>
         </div>
-        <div className="text-right">
-          <span className="text-xs text-slate-400 block">Status</span>
-          <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${data.ashtakoota.is_recommended ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border-amber-500/30'}`}>
-            {data.ashtakoota.is_recommended ? "Auspicious Union" : "Remedies Advised"}
-          </span>
-        </div>
+        <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${data.ashtakoota.is_recommended ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border-amber-500/30'}`}>
+          {data.ashtakoota.is_recommended ? "Auspicious Union" : "Remedies Advised"}
+        </span>
       </div>
 
-      {/* Koota Breakdown Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
         {Object.entries(data.ashtakoota.breakdown).map(([koota, score]) => (
           <div key={koota} className="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex justify-between items-center">

@@ -8,11 +8,11 @@ from app.models.entities import User, SavedProfile
 from app.core.auth import hash_password, verify_password, create_access_token, get_current_user
 from app.models.requests import (
     BirthDetailsRequest, MatchMakingRequest, AIQuestionRequest, TransitRequest,
-    UserRegisterRequest, UserLoginRequest, SaveProfileRequest, MuhurtaRequest
+    UserRegisterRequest, UserLoginRequest, SaveProfileRequest, MuhurtaRequest, VarshaphalaRequest
 )
 from app.models.responses import (
     NatalChartResponse, MatchMakingResponse, AIAnswerResponse, TransitResponse,
-    PanchangResponse, JaiminiResponse, KPResponse, MuhurtaResponse, UserAuthResponse, ProfileResponse, KakshyaResponse
+    PanchangResponse, JaiminiResponse, KPResponse, MuhurtaResponse, UserAuthResponse, ProfileResponse, KakshyaResponse, VarshaphalaResponse
 )
 from app.services.chart_service import ChartService
 from app.services.match_service import MatchService
@@ -25,13 +25,14 @@ from app.services.jaimini_service import JaiminiService
 from app.services.kp_service import KPService
 from app.services.muhurta_service import MuhurtaService
 from app.services.kakshya_service import KakshyaService
+from app.services.varshaphala_service import VarshaphalaService
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Jyotish Platform API (Vedic, KP, Jaimini, Muhurta, Synastry & PDF)",
-    description="Comprehensive Astrological Engine with Synastry & PDF Generation",
-    version="13.0.0"
+    title="Jyotish Platform API (Vedic, KP, Jaimini, Tajika & Workers)",
+    description="Comprehensive Astrological Engine with Varshaphala Annual Horoscopes",
+    version="14.0.0"
 )
 
 app.add_middleware(
@@ -44,7 +45,7 @@ app.add_middleware(
 
 @app.get("/health", tags=["Status"])
 def health_check():
-    return {"status": "healthy", "version": "13.0.0", "service": "jyotish-complete-engine"}
+    return {"status": "healthy", "version": "14.0.0", "service": "jyotish-complete-engine"}
 
 # AUTH & PROFILES
 @app.post("/api/v1/auth/register", response_model=UserAuthResponse, tags=["Auth"])
@@ -84,6 +85,11 @@ def save_profile(payload: SaveProfileRequest, user: User = Depends(get_current_u
 def create_natal_chart(payload: BirthDetailsRequest):
     return ChartService.generate_natal_chart(payload)
 
+@app.post("/api/v1/chart/varshaphala", response_model=VarshaphalaResponse, tags=["Varshaphala"])
+def get_varshaphala_annual_chart(payload: VarshaphalaRequest):
+    """Calculates Tajika Solar Return Annual Chart, Muntha, Varsheshwara, and Tajika Yogas."""
+    return VarshaphalaService.calculate_annual_chart(payload)
+
 @app.post("/api/v1/chart/kakshya", response_model=KakshyaResponse, tags=["Ashtakavarga"])
 def get_kakshya_transits(payload: TransitRequest):
     return KakshyaService.calculate_kakshya_system(payload)
@@ -111,7 +117,6 @@ def compute_matchmaking(payload: MatchMakingRequest):
 
 @app.post("/api/v1/matchmaking/pdf", tags=["Reports"])
 def export_matchmaking_pdf(payload: MatchMakingRequest):
-    """Generates and returns an Ashtakoota Matchmaking Synastry PDF report."""
     pdf_bytes = MatchPDFService.generate_compatibility_pdf(payload)
     return Response(content=pdf_bytes, media_type="application/pdf", headers={"Content-Disposition": "attachment; filename=matchmaking_report.pdf"})
 

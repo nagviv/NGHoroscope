@@ -143,3 +143,13 @@ class MuhurtaResponse(BaseModel):
 class KakshyaResponse(BaseModel):
     transit_date: str
     kakshya_transits: Dict[str, Dict[str, Any]]
+
+class VarshaphalaResponse(BaseModel):
+    target_year: int
+    solar_return_date: str
+    varsha_ascendant: EntityPosition
+    varsha_planets: Dict[str, PlanetPosition]
+    muntha: Dict[str, Any]
+    panchadhikaris: Dict[str, str]
+    varsheshwara: str
+    tajika_yogas: List[Dict[str, Any]]

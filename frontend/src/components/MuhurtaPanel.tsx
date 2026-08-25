@@ -1,6 +1,6 @@
 import React from 'react';
 import { MuhurtaResponse } from '../types/astrology';
-import { Sun, CheckCircle, Clock } from 'lucide-react';
+import { Sun, Clock } from 'lucide-react';
 
 export const MuhurtaPanel: React.FC<{ data: MuhurtaResponse }> = ({ data }) => {
   return (
@@ -33,11 +33,8 @@ export const MuhurtaPanel: React.FC<{ data: MuhurtaResponse }> = ({ data }) => {
         </h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
           {data.choghadiya_day.map((c, idx) => (
-            <div key={idx} className={`p-2.5 rounded-xl border flex flex-col justify-between ${c.quality === 'Good' ? 'bg-emerald-950/30 border-emerald-500/30 text-emerald-200' : (c.quality === 'Inauspicious' ? 'bg-red-950/30 border-red-500/30 text-red-200' : 'bg-slate-950 border-slate-800 text-slate-300')}`}>
-              <div className="flex justify-between items-center">
-                <span className="font-bold">{c.name}</span>
-                <span className="text-[10px] opacity-80">{c.quality}</span>
-              </div>
+            <div key={idx} className={`p-2.5 rounded-xl border flex flex-col justify-between ${c.quality === 'Good' ? 'bg-emerald-950/30 border-emerald-500/30 text-emerald-200' : 'bg-slate-950 border-slate-800 text-slate-300'}`}>
+              <span className="font-bold">{c.name}</span>
               <span className="text-[11px] font-mono mt-1">{c.start_time} - {c.end_time}</span>
             </div>
           ))}
