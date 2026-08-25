@@ -12,6 +12,13 @@ class BirthDetailsRequest(BaseModel):
     latitude: float = Field(..., ge=-90.0, le=90.0, example=17.3850)
     longitude: float = Field(..., ge=-180.0, le=180.0, example=78.4867)
 
+class MuhurtaRequest(BaseModel):
+    year: int = Field(..., example=2026)
+    month: int = Field(..., ge=1, le=12, example=8)
+    day: int = Field(..., ge=1, le=31, example=25)
+    latitude: float = Field(default=17.3850)
+    longitude: float = Field(default=78.4867)
+
 class SaveProfileRequest(BirthDetailsRequest):
     name: str = Field(..., example="Rohit Sharma")
     relationship_label: Optional[str] = Field(default="Self", example="Self")

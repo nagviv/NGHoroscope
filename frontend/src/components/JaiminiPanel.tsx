@@ -13,7 +13,6 @@ export const JaiminiPanel: React.FC<{ data: JaiminiResponse }> = ({ data }) => {
           Karakamsha: {data.karakamsha_sign}
         </span>
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {Object.entries(data.karakas).map(([kName, kData]) => (
           <div key={kName} className="bg-slate-950/70 border border-slate-800 p-3 rounded-xl flex flex-col justify-between">
@@ -24,20 +23,6 @@ export const JaiminiPanel: React.FC<{ data: JaiminiResponse }> = ({ data }) => {
             <div className="text-[11px] text-slate-400 mt-1">{kData.signification}</div>
           </div>
         ))}
-      </div>
-
-      <div className="space-y-2 pt-2 border-t border-slate-800">
-        <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
-          <Sparkles className="w-3.5 h-3.5" /> Chara Dasha Timeline (Sign Periods)
-        </h4>
-        <div className="grid grid-cols-3 md:grid-cols-4 gap-2 text-xs">
-          {data.chara_dasha.map((cd, idx) => (
-            <div key={idx} className="bg-slate-950 p-2 rounded-lg border border-slate-800 text-center">
-              <div className="font-bold text-slate-200">{cd.sign} ({cd.duration_years}y)</div>
-              <div className="text-[10px] text-slate-500 mt-0.5">{cd.start_date.slice(0,4)} - {cd.end_date.slice(0,4)}</div>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );

@@ -72,6 +72,14 @@ export interface KPResponse {
   ruling_planets: Record<string, string>;
 }
 
+export interface MuhurtaResponse {
+  target_date: string;
+  choghadiya_day: { name: string; nature: string; quality: string; start_time: string; end_time: string }[];
+  horas: { hora_number: number; lord: string; start_time: string; end_time: string; suitability: string }[];
+  special_spans: Record<string, any>;
+  activity_suitability: Record<string, { score: number; verdict: string }>;
+}
+
 export interface SavedProfile {
   id: number;
   name: string;

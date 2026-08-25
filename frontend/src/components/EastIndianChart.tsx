@@ -4,11 +4,9 @@ import { NatalChartResponse } from '../types/astrology';
 export const EastIndianChart: React.FC<{ chart: NatalChartResponse }> = ({ chart }) => {
   const ascSignIdx = chart.ascendant.sign_index;
   const housePlanets: Record<number, string[]> = { 1:[],2:[],3:[],4:[],5:[],6:[],7:[],8:[],9:[],10:[],11:[],12:[] };
-
   Object.entries(chart.planets).forEach(([pName, pData]) => {
     housePlanets[pData.house]?.push(pName.slice(0, 2));
   });
-
   const getSign = (h: number) => ((ascSignIdx + (h - 1)) % 12) + 1;
 
   return (

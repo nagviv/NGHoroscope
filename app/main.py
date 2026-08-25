@@ -8,11 +8,11 @@ from app.models.entities import User, SavedProfile
 from app.core.auth import hash_password, verify_password, create_access_token, get_current_user
 from app.models.requests import (
     BirthDetailsRequest, MatchMakingRequest, AIQuestionRequest, TransitRequest,
-    UserRegisterRequest, UserLoginRequest, SaveProfileRequest
+    UserRegisterRequest, UserLoginRequest, SaveProfileRequest, MuhurtaRequest
 )
 from app.models.responses import (
     NatalChartResponse, MatchMakingResponse, AIAnswerResponse, TransitResponse,
-    PanchangResponse, JaiminiResponse, KPResponse, UserAuthResponse, ProfileResponse
+    PanchangResponse, JaiminiResponse, KPResponse, MuhurtaResponse, UserAuthResponse, ProfileResponse
 )
 from app.services.chart_service import ChartService
 from app.services.match_service import MatchService
@@ -22,13 +22,14 @@ from app.services.panchang_service import PanchangService
 from app.services.pdf_service import PDFService
 from app.services.jaimini_service import JaiminiService
 from app.services.kp_service import KPService
+from app.services.muhurta_service import MuhurtaService
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Jyotish Engine & KP Astrology API",
-    description="High-precision Vedic, Jaimini & KP (Krishnamurti Paddhati) Astrological Microservice",
-    version="9.0.0"
+    title="Jyotish Platform API (Vedic, Jaimini, KP, Muhurta)",
+    description="Comprehensive Astrological Calculation Suite with Muhurta & AI Interpretations",
+    version="10.0.0"
 )
 
 app.add_middleware(
@@ -41,7 +42,7 @@ app.add_middleware(
 
 @app.get("/health", tags=["Status"])
 def health_check():
-    return {"status": "healthy", "version": "9.0.0", "service": "jyotish-kp-core"}
+    return {"status": "healthy", "version": "10.0.0", "service": "jyotish-full-engine"}
 
 # AUTH ENDPOINTS
 @app.post("/api/v1/auth/register", response_model=UserAuthResponse, tags=["Auth"])
@@ -91,9 +92,13 @@ def delete_profile(profile_id: int, user: User = Depends(get_current_user), db: 
 def create_natal_chart(payload: BirthDetailsRequest):
     return ChartService.generate_natal_chart(payload)
 
+@app.post("/api/v1/muhurta/calculate", response_model=MuhurtaResponse, tags=["Muhurta"])
+def get_muhurta_analysis(payload: MuhurtaRequest):
+    """Calculates Choghadiya, Horas, Inauspicious/Auspicious Spans, and Event Suitability Scores."""
+    return MuhurtaService.calculate_muhurta_details(payload)
+
 @app.post("/api/v1/chart/kp", response_model=KPResponse, tags=["KP Astrology"])
 def get_kp_system(payload: BirthDetailsRequest):
-    """Calculates KP Placidus Cusps, 249 Sub-Lords, and Ruling Planets."""
     return KPService.calculate_kp_system(payload)
 
 @app.post("/api/v1/chart/jaimini", response_model=JaiminiResponse, tags=["Jaimini"])

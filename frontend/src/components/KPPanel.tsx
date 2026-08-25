@@ -14,7 +14,6 @@ export const KPPanel: React.FC<{ data: KPResponse }> = ({ data }) => {
         </div>
       </div>
 
-      {/* Ruling Planets Banner */}
       <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
         <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
           <ShieldCheck className="w-4 h-4 text-amber-400" /> KP Ruling Planets (RP)
@@ -43,7 +42,6 @@ export const KPPanel: React.FC<{ data: KPResponse }> = ({ data }) => {
         </div>
       </div>
 
-      {/* 12 Cusps Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-xs text-left border-collapse">
           <thead>

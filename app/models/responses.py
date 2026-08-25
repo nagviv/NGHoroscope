@@ -132,3 +132,10 @@ class KPResponse(BaseModel):
     cusps: List[KPCusp]
     planets: Dict[str, KPPlanet]
     ruling_planets: Dict[str, str]
+
+class MuhurtaResponse(BaseModel):
+    target_date: str
+    choghadiya_day: List[Dict[str, Any]]
+    horas: List[Dict[str, Any]]
+    special_spans: Dict[str, Any]
+    activity_suitability: Dict[str, Any]

@@ -12,10 +12,4 @@ def calculate_panchang_details(dt: datetime, tz_offset: float, lat: float, lon: 
     tithi_idx = int(((moon_lon - sun_lon) % 360.0) // 12.0)
     nak_info = calculate_nakshatra(moon_lon)
     weekday_idx = (dt.weekday() + 1) % 7
-    return {
-        "tithi": {"name": TITHI_NAMES[tithi_idx % len(TITHI_NAMES)], "paksha": "Shukla" if tithi_idx < 15 else "Krishna", "index": tithi_idx + 1},
-        "vara": VARAS[weekday_idx],
-        "nakshatra": {"name": nak_info["name"], "pada": nak_info["pada"]},
-        "yoga_index": 1,
-        "rahu_kaal": "16:30 - 18:00"
-    }
+    return {"tithi": {"name": TITHI_NAMES[tithi_idx % len(TITHI_NAMES)], "paksha": "Shukla" if tithi_idx < 15 else "Krishna", "index": tithi_idx + 1}, "vara": VARAS[weekday_idx], "nakshatra": {"name": nak_info["name"], "pada": nak_info["pada"]}, "yoga_index": 1, "rahu_kaal": "16:30 - 18:00"}

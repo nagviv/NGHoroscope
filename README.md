@@ -1,22 +1,22 @@
-# Jyotish Complete Full-Stack Astrology Platform (Phase 9 - KP Astrology)
+# Jyotish Complete Full-Stack Astrology Platform (Phase 10 - Muhurta & i18n)
 
-Production-ready Vedic Astrology platform featuring **Krishnamurti Paddhati (KP Astrology)**, Parashara and Jaimini systems, JWT auth, saved horoscopes, and multi-style SVG charts.
+Production-grade Vedic Astrology platform featuring **Muhurta (Elective Auspicious Timing)**, Multi-Language Internationalization (English, Hindi, Telugu, Tamil, Sanskrit), Krishnamurti Paddhati (KP), Jaimini, Parashara, and JWT auth.
 
-## What's Added in Phase 9 (KP Astrology Engine)
-1. **Placidus House Cusps with KP / Lahiri Ayanamsa (`app/core/kp.py`)**:
-   - Exact Placidus degree cusps (1st through 12th Cusp).
-2. **249 KP Sub-Lord Table**:
-   - Computes Sign Lord, Star (Nakshatra) Lord, Sub-Lord, and Sub-Sub-Lord for all 9 Grahas and 12 House Cusps.
-3. **KP Ruling Planets (RP)**:
-   - Evaluates real-time / birth Ruling Planets (Lagna Sign & Star Lord, Moon Sign & Star Lord, Day Lord).
-4. **KP 4-Fold Planetary Significators**:
-   - Determines House Significations based on:
-     - Level A: Planets in star of occupant
-     - Level B: House Occupant
-     - Level C: Planets in star of house lord
-     - Level D: House Lord
-5. **Frontend KP Sub-Lord Table UI (`KPPanel.tsx`)**:
-   - Interactive UI inspector displaying 12 Cusps, Planetary Sub-Lords, and Ruling Planets.
+## What's Added in Phase 10
+1. **Elective Muhurta Engine (`app/core/muhurta.py`)**:
+   - Day & Night **Choghadiya** (Amrit, Shubh, Labh, Char, Rog, Kaal, Udveg).
+   - 24 Planetary **Horas** calculated from local sunrise.
+   - **Abhijit Muhurat**, **Brahma Muhurta**, **Rahu Kaal**, **Yamaganda**, and **Gulika Kaal**.
+   - Activity Suitability Scores for:
+     - **Vivaha (Marriage)**
+     - **Griha Pravesh (Housewarming)**
+     - **Vanijya (New Business / Trading)**
+     - **Yatra (Travel)**
+     - **Kraya-Vikraya (Property / Asset Purchase)**
+2. **Multi-Language Localization Support**:
+   - UI and calculation string dictionaries across English, Hindi (हिंदी), Telugu (తెలుగు), Tamil (தமிழ்), and Sanskrit (संस्कृत).
+3. **Frontend Muhurta Inspector (`MuhurtaPanel.tsx`)**:
+   - Interactive timetable and activity compatibility dashboard.
 
 ## Quick Start with Docker
 ```bash
