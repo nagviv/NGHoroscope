@@ -46,6 +46,32 @@ export interface JaiminiResponse {
   chara_dasha: { sign: string; lord: string; duration_years: number; start_date: string; end_date: string }[];
 }
 
+export interface KPCusp {
+  cusp: number;
+  longitude: number;
+  degree_in_sign: number;
+  sign: string;
+  sign_lord: string;
+  star_lord: string;
+  sub_lord: string;
+}
+
+export interface KPPlanet {
+  longitude: number;
+  degree_in_sign: number;
+  sign: string;
+  sign_lord: string;
+  star_lord: string;
+  sub_lord: string;
+  kp_house: number;
+}
+
+export interface KPResponse {
+  cusps: KPCusp[];
+  planets: Record<string, KPPlanet>;
+  ruling_planets: Record<string, string>;
+}
+
 export interface SavedProfile {
   id: number;
   name: string;

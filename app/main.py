@@ -12,7 +12,7 @@ from app.models.requests import (
 )
 from app.models.responses import (
     NatalChartResponse, MatchMakingResponse, AIAnswerResponse, TransitResponse,
-    PanchangResponse, JaiminiResponse, UserAuthResponse, ProfileResponse
+    PanchangResponse, JaiminiResponse, KPResponse, UserAuthResponse, ProfileResponse
 )
 from app.services.chart_service import ChartService
 from app.services.match_service import MatchService
@@ -21,13 +21,14 @@ from app.services.transit_service import TransitService
 from app.services.panchang_service import PanchangService
 from app.services.pdf_service import PDFService
 from app.services.jaimini_service import JaiminiService
+from app.services.kp_service import KPService
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Jyotish Engine, Jaimini & Auth API",
-    description="High-precision Vedic Astrological Microservice with User Profiles and Authentication",
-    version="8.0.0"
+    title="Jyotish Engine & KP Astrology API",
+    description="High-precision Vedic, Jaimini & KP (Krishnamurti Paddhati) Astrological Microservice",
+    version="9.0.0"
 )
 
 app.add_middleware(
@@ -40,7 +41,7 @@ app.add_middleware(
 
 @app.get("/health", tags=["Status"])
 def health_check():
-    return {"status": "healthy", "version": "8.0.0", "service": "jyotish-auth-core"}
+    return {"status": "healthy", "version": "9.0.0", "service": "jyotish-kp-core"}
 
 # AUTH ENDPOINTS
 @app.post("/api/v1/auth/register", response_model=UserAuthResponse, tags=["Auth"])
@@ -89,6 +90,11 @@ def delete_profile(profile_id: int, user: User = Depends(get_current_user), db: 
 @app.post("/api/v1/chart/natal", response_model=NatalChartResponse, tags=["Charts"])
 def create_natal_chart(payload: BirthDetailsRequest):
     return ChartService.generate_natal_chart(payload)
+
+@app.post("/api/v1/chart/kp", response_model=KPResponse, tags=["KP Astrology"])
+def get_kp_system(payload: BirthDetailsRequest):
+    """Calculates KP Placidus Cusps, 249 Sub-Lords, and Ruling Planets."""
+    return KPService.calculate_kp_system(payload)
 
 @app.post("/api/v1/chart/jaimini", response_model=JaiminiResponse, tags=["Jaimini"])
 def get_jaimini_details(payload: BirthDetailsRequest):

@@ -109,3 +109,26 @@ class JaiminiResponse(BaseModel):
     karakamsha_sign: str
     arudha_lagna: Dict[str, Any]
     chara_dasha: List[Dict[str, Any]]
+
+class KPCusp(BaseModel):
+    cusp: int
+    longitude: float
+    degree_in_sign: float
+    sign: str
+    sign_lord: str
+    star_lord: str
+    sub_lord: str
+
+class KPPlanet(BaseModel):
+    longitude: float
+    degree_in_sign: float
+    sign: str
+    sign_lord: str
+    star_lord: str
+    sub_lord: str
+    kp_house: int
+
+class KPResponse(BaseModel):
+    cusps: List[KPCusp]
+    planets: Dict[str, KPPlanet]
+    ruling_planets: Dict[str, str]
