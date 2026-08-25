@@ -16,29 +16,18 @@ class MatchService:
         g_chart = compute_chart_raw(g_dt, req.groom.timezone_offset, req.groom.latitude, req.groom.longitude)
         
         b_moon_sign = b_chart["planets"]["Moon"]["sign"]
-        b_nak_name = b_chart["planets"]["Moon"]["nakshatra"]
-        b_nak_idx = NAKSHATRAS.index(b_nak_name)
-        
+        b_nak_idx = NAKSHATRAS.index(b_chart["planets"]["Moon"]["nakshatra"])
         g_moon_sign = g_chart["planets"]["Moon"]["sign"]
-        g_nak_name = g_chart["planets"]["Moon"]["nakshatra"]
-        g_nak_idx = NAKSHATRAS.index(g_nak_name)
+        g_nak_idx = NAKSHATRAS.index(g_chart["planets"]["Moon"]["nakshatra"])
         
         ashtakoota_res = calculate_ashtakoota(b_moon_sign, b_nak_idx, g_moon_sign, g_nak_idx)
-        b_mangal = check_mangal_dosha(b_chart)
-        g_mangal = check_mangal_dosha(g_chart)
-        
-        # Overall assessment
         score = ashtakoota_res["total_score"]
-        if score >= 24.0 and ashtakoota_res["is_recommended"]:
-            overall = "Excellent Compatibility"
-        elif score >= 18.0 and ashtakoota_res["is_recommended"]:
-            overall = "Good / Auspicious Alignment"
-        else:
-            overall = "Requires Astrological Consultation / Remedial Measures"
-            
+        
+        overall = "Excellent Compatibility" if (score >= 24 and ashtakoota_res["is_recommended"]) else ("Good / Auspicious Alignment" if (score >= 18 and ashtakoota_res["is_recommended"]) else "Requires Remedial Measures")
+        
         return MatchMakingResponse(
             ashtakoota=ashtakoota_res,
-            bride_mangal_dosha=b_mangal,
-            groom_mangal_dosha=g_mangal,
+            bride_mangal_dosha=check_mangal_dosha(b_chart),
+            groom_mangal_dosha=check_mangal_dosha(g_chart),
             overall_compatibility=overall
         )

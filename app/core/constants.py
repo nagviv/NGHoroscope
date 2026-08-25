@@ -12,7 +12,6 @@ RASHI_LORDS = [
     "Jupiter", "Saturn", "Saturn", "Jupiter"
 ]
 
-# Exaltation & Debilitation signs (0-indexed)
 PLANET_DIGNITIES = {
     "Sun": {"exalted": 0, "debilitated": 6, "own": [4]},
     "Moon": {"exalted": 1, "debilitated": 7, "own": [3]},
@@ -53,4 +52,19 @@ DASHA_LORDS = ["Ketu", "Venus", "Sun", "Moon", "Mars", "Rahu", "Jupiter", "Satur
 DASHA_YEARS = {
     "Ketu": 7.0, "Venus": 20.0, "Sun": 6.0, "Moon": 10.0, "Mars": 7.0,
     "Rahu": 18.0, "Jupiter": 16.0, "Saturn": 19.0, "Mercury": 17.0
+}
+
+HOUSE_KARAKAS = {
+    1: {"name": "Tanu Bhava (Self/Vitality)", "karakas": ["Sun"], "domains": ["Physique", "Health", "Identity"]},
+    2: {"name": "Dhana Bhava (Wealth/Speech)", "karakas": ["Jupiter"], "domains": ["Savings", "Family lineage", "Speech"]},
+    3: {"name": "Sahaja Bhava (Siblings/Courage)", "karakas": ["Mars"], "domains": ["Effort", "Courage", "Communication"]},
+    4: {"name": "Sukha Bhava (Mother/Domestic Joy)", "karakas": ["Moon", "Venus"], "domains": ["Property", "Inner peace", "Mother"]},
+    5: {"name": "Putra Bhava (Children/Intellect)", "karakas": ["Jupiter"], "domains": ["Intelligence", "Past-life merits", "Children"]},
+    6: {"name": "Ari Bhava (Obstacles/Debts/Health)", "karakas": ["Mars", "Saturn"], "domains": ["Competition", "Service", "Healing"]},
+    7: {"name": "Yuvati Bhava (Spouse/Partnerships)", "karakas": ["Venus"], "domains": ["Marriage", "Business contracts", "Alliances"]},
+    8: {"name": "Randhra Bhava (Transformation/Longevity)", "karakas": ["Saturn"], "domains": ["Occult", "Sudden changes", "Research"]},
+    9: {"name": "Dharma Bhava (Fortune/Higher Wisdom)", "karakas": ["Jupiter", "Sun"], "domains": ["Guru", "Higher learning", "Luck"]},
+    10: {"name": "Karma Bhava (Profession/Status)", "karakas": ["Sun", "Mercury", "Saturn"], "domains": ["Career", "Public eminence", "Authority"]},
+    11: {"name": "Labha Bhava (Gains/Aspirations)", "karakas": ["Jupiter"], "domains": ["Income streams", "Networks", "Elder siblings"]},
+    12: {"name": "Vyaya Bhava (Expenditure/Liberation)", "karakas": ["Saturn", "Ketu"], "domains": ["Foreign residence", "Spirituality", "Sleep"]}
 }

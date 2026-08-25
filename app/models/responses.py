@@ -54,3 +54,26 @@ class MatchMakingResponse(BaseModel):
     bride_mangal_dosha: Dict[str, Any]
     groom_mangal_dosha: Dict[str, Any]
     overall_compatibility: str
+
+class AIAnswerResponse(BaseModel):
+    question: str
+    category: str
+    active_dasha: Dict[str, str]
+    astrological_factors: List[str]
+    analysis: str
+    practical_remedies: List[str]
+
+class TransitResponse(BaseModel):
+    transit_date: str
+    transit_planets: Dict[str, Dict[str, Any]]
+    transits_from_lagna: Dict[str, int]
+    transits_from_moon: Dict[str, int]
+    sade_sati_status: Dict[str, Any]
+
+class PanchangResponse(BaseModel):
+    date: str
+    tithi: Dict[str, Any]
+    vara: str
+    nakshatra: Dict[str, Any]
+    yoga_index: int
+    rahu_kaal: str

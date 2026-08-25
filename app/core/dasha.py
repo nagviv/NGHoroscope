@@ -67,3 +67,21 @@ def calculate_vimshottari(moon_longitude: float, birth_dt: datetime) -> List[Dic
         current_start = end_date
         
     return timeline
+
+def get_active_dasha(dasha_tree: List[Dict[str, Any]], target_dt: datetime) -> Dict[str, str]:
+    """Finds the active Mahadasha and Antardasha for a given target date."""
+    target_iso = target_dt.isoformat()
+    active_md = "Unknown"
+    active_ad = "Unknown"
+    
+    for md in dasha_tree:
+        if md["start_date"] <= target_iso <= md["end_date"]:
+            active_md = md["lord"]
+            if "antardashas" in md and md["antardashas"]:
+                for ad in md["antardashas"]:
+                    if ad["start_date"] <= target_iso <= ad["end_date"]:
+                        active_ad = ad["lord"]
+                        break
+            break
+            
+    return {"mahadasha": active_md, "antardasha": active_ad}

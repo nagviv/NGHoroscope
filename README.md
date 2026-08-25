@@ -1,15 +1,21 @@
-# Jyotish Core Engine & Classical Analysis Service (Phase 2)
+# Jyotish Core & AI Astrologer Microservice (Phase 3)
 
-A production-grade Vedic Astrological Calculation and Classical Jyotish Rules Engine microservice built with FastAPI and Swiss Ephemeris (`pyswisseph`).
+A high-precision Vedic Astrological Calculation engine paired with an **intelligent, context-injected Jyotish AI Q&A Engine**.
 
-## Features Added in Phase 2
-- **Yoga Identification Engine**: Detects Raja Yogas, Dhana Yogas, Gajakesari, Pancha Mahapurusha Yogas (Ruchaka, Bhadra, Hamsa, Malavya, Sasa), Budhaditya, Neechbhanga Raja Yoga, Viparita Raja Yogas, and Chandra Yogas.
-- **Dosha Analysis Module**:
-  - **Manglik (Kuja) Dosha**: Evaluates Mars from Lagna, Moon, and Venus across 1st, 2nd, 4th, 7th, 8th, and 12th houses with Parashara cancellation rules.
-  - **Shani Sade Sati**: Tracks exact 7.5-year transit phase (Rising, Peak, Setting) and Shani Dhaiya (Kantaka/Ashtama Shani).
-  - **Kaal Sarp & Guru Chandal Doshas**.
-- **Ashtakavarga System**: Computes Sarvashtakavarga (SAV) points (0-56 scale per rashi) and planetary Bhinnashtakavarga (BAV).
-- **Ashtakoota Matchmaking (Synastry)**: Complete 36-point compatibility engine (Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, Nadi) with dosha exception rules.
+## What's Added in Phase 3
+
+1. **Context-Injected AI Astrologer (`/api/v1/ai/ask`)**:
+   - Deterministically calculates and serializes user natal chart, active Vimshottari Mahadasha/Antardasha, Yogas, and real-time transits into an optimized JSON prompt payload.
+   - Built-in classical Jyotish knowledge base (House significations, Karakas, planetary relationships).
+   - Strict ethical guardrails against fatalistic predictions, emphasizing actionable Vedic guidance, timing, and traditional remedies (Mantras, behavioral adjustments, gemstones, daan).
+   - Multi-provider LLM support (OpenAI / Google Gemini / Anthropic) with an included deterministic fallback engine.
+
+2. **Real-time Gochar (Transits) Engine (`/api/v1/chart/transits`)**:
+   - Calculates live planetary transits against natal lagna and moon houses.
+   - Identifies active planetary aspects and Sade Sati / Dhaiya transit hits.
+
+3. **Daily Astrological Panchang & Horoscopes (`/api/v1/panchang/daily`)**:
+   - Daily Tithi, Vara, Nakshatra, Yoga, Karana, and Rahu Kaal calculations.
 
 ## Quick Start
 
@@ -20,13 +26,18 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 2. Run Comprehensive Test Suite
+### 2. Configure Environment Variables (Optional for AI)
+```bash
+export OPENAI_API_KEY="your-openai-key"       # Or set GEMINI_API_KEY
+```
+
+### 3. Run Test Suite
 ```bash
 pytest tests/ -v
 ```
 
-### 3. Run Development Server
+### 4. Run Development Server
 ```bash
 uvicorn app.main:app --reload --port 8000
 ```
-Interactive Swagger API documentation: `http://localhost:8000/docs`
+Interactive Swagger Documentation: `http://localhost:8000/docs`
