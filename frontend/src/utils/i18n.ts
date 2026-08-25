@@ -8,11 +8,7 @@ export const translations: Record<Language, Record<string, string>> = {
     parashara: "Parashara",
     kp: "KP System",
     jaimini: "Jaimini",
-    muhurta: "Muhurta",
-    aiAstrologer: "AI Astrologer Q&A",
-    choghadiya: "Choghadiya Timetable",
-    horas: "Planetary Horas",
-    suitability: "Activity Suitability"
+    muhurta: "Muhurta"
   },
   hi: {
     appTitle: "ज्योतिष मंच",
@@ -21,11 +17,7 @@ export const translations: Record<Language, Record<string, string>> = {
     parashara: "पाराशरी",
     kp: "केपी पद्धति",
     jaimini: "जैमिनी",
-    muhurta: "मुहूर्त",
-    aiAstrologer: "एआई ज्योतिषी प्रश्नोत्तर",
-    choghadiya: "चौघड़िया समय सारणी",
-    horas: "ग्रह होरा",
-    suitability: "कार्य अनुकूलता"
+    muhurta: "मुहूर्त"
   },
   te: {
     appTitle: "జ్యోతిష వేదిక",
@@ -34,11 +26,7 @@ export const translations: Record<Language, Record<string, string>> = {
     parashara: "పరాశర",
     kp: "కేపీ పద్ధతి",
     jaimini: "జైమిని",
-    muhurta: "ముహూర్తం",
-    aiAstrologer: "ఏఐ జ్యోతిష్యుడు",
-    choghadiya: "చోఘడియా",
-    horas: "గ్రహ హోర",
-    suitability: "కార్య అనుకూలత"
+    muhurta: "ముహూర్తం"
   },
   ta: {
     appTitle: "ஜோதிட தளம்",
@@ -47,11 +35,7 @@ export const translations: Record<Language, Record<string, string>> = {
     parashara: "பராசர",
     kp: "கேபி முறை",
     jaimini: "ஜைமினி",
-    muhurta: "முகூர்த்தம்",
-    aiAstrologer: "ஏஐ ஜோதிடர்",
-    choghadiya: "சோகடியா",
-    horas: "கிரக ஹோரை",
-    suitability: "நிகழ்வு பொருத்தம்"
+    muhurta: "முகூர்த்தம்"
   },
   sa: {
     appTitle: "ज्योतिषशास्त्रम्",
@@ -60,10 +44,6 @@ export const translations: Record<Language, Record<string, string>> = {
     parashara: "पाराशरी",
     kp: "केपीपद्धतिः",
     jaimini: "जैमिनी",
-    muhurta: "शुभमुहूर्तः",
-    aiAstrologer: "दैवज्ञ-सम्भाषणम्",
-    choghadiya: "चौघटिका",
-    horas: "होराचक्रम्",
-    suitability: "कार्ययोग्यता"
+    muhurta: "शुभमुहूर्तः"
   }
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { MuhurtaResponse } from '../types/astrology';
-import { Sun, ShieldAlert, CheckCircle, Clock } from 'lucide-react';
+import { Sun, CheckCircle, Clock } from 'lucide-react';
 
 export const MuhurtaPanel: React.FC<{ data: MuhurtaResponse }> = ({ data }) => {
   return (
@@ -12,26 +12,21 @@ export const MuhurtaPanel: React.FC<{ data: MuhurtaResponse }> = ({ data }) => {
         <span className="text-xs text-slate-400">Date: {data.target_date}</span>
       </div>
 
-      {/* Special Spans */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="bg-slate-950 p-3 rounded-xl border border-emerald-500/30">
           <span className="text-[10px] text-emerald-400 font-bold uppercase block">Abhijit Muhurat</span>
           <span className="text-sm font-bold text-slate-100">{data.special_spans.abhijit_muhurat.start_time} - {data.special_spans.abhijit_muhurat.end_time}</span>
-          <span className="text-[10px] text-slate-400 block mt-0.5">Supreme Auspicious Window</span>
         </div>
         <div className="bg-slate-950 p-3 rounded-xl border border-red-500/30">
           <span className="text-[10px] text-red-400 font-bold uppercase block">Rahu Kaal (Avoid)</span>
           <span className="text-sm font-bold text-slate-100">{data.special_spans.rahu_kaal}</span>
-          <span className="text-[10px] text-slate-400 block mt-0.5">Inauspicious for new beginnings</span>
         </div>
         <div className="bg-slate-950 p-3 rounded-xl border border-amber-500/30">
           <span className="text-[10px] text-amber-400 font-bold uppercase block">Brahma Muhurta</span>
           <span className="text-sm font-bold text-slate-100">{data.special_spans.brahma_muhurta.start_time} - {data.special_spans.brahma_muhurta.end_time}</span>
-          <span className="text-[10px] text-slate-400 block mt-0.5">Ideal for Meditation & Sadhana</span>
         </div>
       </div>
 
-      {/* Choghadiya Table */}
       <div className="space-y-2">
         <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
           <Clock className="w-3.5 h-3.5" /> Daytime Choghadiya Sequence
@@ -49,7 +44,6 @@ export const MuhurtaPanel: React.FC<{ data: MuhurtaResponse }> = ({ data }) => {
         </div>
       </div>
 
-      {/* Activity Suitability */}
       <div className="space-y-2 pt-2 border-t border-slate-800">
         <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
           <CheckCircle className="w-3.5 h-3.5" /> Event Compatibility Scores

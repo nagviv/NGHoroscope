@@ -66,7 +66,6 @@ export default function App() {
           <p className="text-xs text-slate-400 mt-0.5">{t.subtitle}</p>
         </div>
         <div className="flex items-center gap-3">
-          {/* Language Selector */}
           <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 p-1.5 rounded-xl text-xs">
             <Globe className="w-3.5 h-3.5 text-amber-400 ml-1" />
             <select

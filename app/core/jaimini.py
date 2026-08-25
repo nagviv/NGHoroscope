@@ -3,13 +3,13 @@ from datetime import datetime, timedelta
 from app.core.constants import RASHIS, RASHI_LORDS
 
 KARAKA_NAMES = [
-    ("Atmakaraka (AK)", "Soul signifier, primary life purpose, spiritual evolution"),
-    ("Amatyakaraka (AmK)", "Career, intellect, executive power, professional success"),
-    ("Bhratrikaraka (BK)", "Siblings, advisors, courage, spiritual masters"),
-    ("Matrikaraka (MK)", "Mother, domestic stability, inner contentment, assets"),
-    ("Putrakaraka (PK)", "Children, creativity, higher discernment, intelligence"),
-    ("Gnatikaraka (GK)", "Obstacles, competition, disease, karmic tests"),
-    ("Darakaraka (DK)", "Spouse, intimate partners, alliances, business relations")
+    ("Atmakaraka (AK)", "Soul signifier, primary life purpose"),
+    ("Amatyakaraka (AmK)", "Career & professional intellect"),
+    ("Bhratrikaraka (BK)", "Siblings & guides"),
+    ("Matrikaraka (MK)", "Mother & assets"),
+    ("Putrakaraka (PK)", "Children & creativity"),
+    ("Gnatikaraka (GK)", "Obstacles & tests"),
+    ("Darakaraka (DK)", "Spouse & alliances")
 ]
 
 def calculate_chara_karakas(chart: Dict[str, Any]) -> Dict[str, Any]:
@@ -39,8 +39,7 @@ def calculate_chara_karakas(chart: Dict[str, Any]) -> Dict[str, Any]:
 
 def calculate_chara_dasha_timeline(chart: Dict[str, Any], birth_dt: datetime) -> List[Dict[str, Any]]:
     asc_sign_idx = chart["ascendant"]["sign_index"]
-    direct_signs = [0, 1, 2, 6, 7, 8]
-    is_direct = asc_sign_idx in direct_signs
+    is_direct = asc_sign_idx in [0, 1, 2, 6, 7, 8]
     timeline = []
     current_start = birth_dt
     for i in range(12):

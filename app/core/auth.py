@@ -7,8 +7,8 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from app.db import get_db
 from app.models.entities import User
+from app.config import SECRET_KEY
 
-SECRET_KEY = "JYOTISH_PRODUCTION_SUPER_SECRET_KEY_REPLACE_IN_ENV"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7
 

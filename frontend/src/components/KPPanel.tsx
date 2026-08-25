@@ -5,13 +5,10 @@ import { Layers, ShieldCheck } from 'lucide-react';
 export const KPPanel: React.FC<{ data: KPResponse }> = ({ data }) => {
   return (
     <div className="bg-slate-900 border border-amber-500/30 rounded-2xl p-6 space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-        <div>
-          <h3 className="text-lg font-bold font-cinzel text-amber-300 flex items-center gap-2">
-            <Layers className="w-5 h-5 text-amber-400" /> Krishnamurti Paddhati (KP System)
-          </h3>
-          <p className="text-xs text-slate-400">Placidus House Cusps, 249 Sub-Lords & Ruling Planets</p>
-        </div>
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-bold font-cinzel text-amber-300 flex items-center gap-2">
+          <Layers className="w-5 h-5 text-amber-400" /> Krishnamurti Paddhati (KP System)
+        </h3>
       </div>
 
       <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">

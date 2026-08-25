@@ -1,22 +1,15 @@
-# Jyotish Complete Full-Stack Astrology Platform (Phase 10 - Muhurta & i18n)
+# Jyotish Complete Full-Stack Astrology Platform (Phase 11 - Background Worker & Notifications)
 
-Production-grade Vedic Astrology platform featuring **Muhurta (Elective Auspicious Timing)**, Multi-Language Internationalization (English, Hindi, Telugu, Tamil, Sanskrit), Krishnamurti Paddhati (KP), Jaimini, Parashara, and JWT auth.
+Production-ready Vedic Astrology platform featuring **Celery & Redis automated background workers** for scheduled daily transits, personalized Panchang, and Dasha transition alerts alongside Parashara, Jaimini, KP, and Muhurta calculation suites.
 
-## What's Added in Phase 10
-1. **Elective Muhurta Engine (`app/core/muhurta.py`)**:
-   - Day & Night **Choghadiya** (Amrit, Shubh, Labh, Char, Rog, Kaal, Udveg).
-   - 24 Planetary **Horas** calculated from local sunrise.
-   - **Abhijit Muhurat**, **Brahma Muhurta**, **Rahu Kaal**, **Yamaganda**, and **Gulika Kaal**.
-   - Activity Suitability Scores for:
-     - **Vivaha (Marriage)**
-     - **Griha Pravesh (Housewarming)**
-     - **Vanijya (New Business / Trading)**
-     - **Yatra (Travel)**
-     - **Kraya-Vikraya (Property / Asset Purchase)**
-2. **Multi-Language Localization Support**:
-   - UI and calculation string dictionaries across English, Hindi (हिंदी), Telugu (తెలుగు), Tamil (தமிழ்), and Sanskrit (संस्कृत).
-3. **Frontend Muhurta Inspector (`MuhurtaPanel.tsx`)**:
-   - Interactive timetable and activity compatibility dashboard.
+## What's Added in Phase 11
+1. **Celery Worker & Beat Scheduler (`app/worker.py`)**:
+   - Automated daily task execution (`dispatch_daily_astrological_digest`).
+   - Automated periodic check for Dasha transitions and Sade Sati status changes (`check_dasha_transitions`).
+2. **Notification Dispatch Service (`app/services/notification_service.py`)**:
+   - Dispatches formatted astrological summaries via Email (SMTP) and Webhook payloads (ready for WhatsApp/SMS gateways like Twilio/Meta Business API).
+3. **Containerized Worker & Redis Service (`docker-compose.yml`)**:
+   - Adds Redis broker/backend and Celery worker/beat containers alongside the FastAPI backend and React frontend.
 
 ## Quick Start with Docker
 ```bash
