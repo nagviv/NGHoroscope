@@ -13,16 +13,12 @@ ASPECT_TYPES = {
 }
 
 def calculate_progressions(birth_dt: datetime, target_year: int, tz_offset: float, lat: float, lon: float) -> Dict[str, Any]:
-    """Calculates Secondary Progressions (Day-for-a-Year) and Solar Arc Directions."""
     completed_years = target_year - birth_dt.year
-    
-    # Secondary Progressed Date: Birth + (Completed Years * 1 day)
     progressed_dt = birth_dt + timedelta(days=completed_years)
     
     natal_chart = compute_chart_raw(birth_dt, tz_offset, lat, lon)
     prog_chart = compute_chart_raw(progressed_dt, tz_offset, lat, lon)
     
-    # Solar Arc: Progressed Sun degree - Natal Sun degree
     natal_sun_lon = natal_chart["planets"]["Sun"]["longitude"]
     prog_sun_lon = prog_chart["planets"]["Sun"]["longitude"]
     solar_arc_distance = (prog_sun_lon - natal_sun_lon) % 360.0
@@ -37,16 +33,14 @@ def calculate_progressions(birth_dt: datetime, target_year: int, tz_offset: floa
             "degree_in_sign": round(arc_lon % 30.0, 2)
         }
         
-    # Check Aspects between Progressed Planets and Natal Planets (1° Orb)
     aspects = []
     for p_prog_name, p_prog_data in prog_chart["planets"].items():
         for p_nat_name, p_nat_data in natal_chart["planets"].items():
             diff = abs(p_prog_data["longitude"] - p_nat_data["longitude"]) % 360.0
             if diff > 180.0:
                 diff = 360.0 - diff
-                
             for angle, (aspect_name, meaning) in ASPECT_TYPES.items():
-                if abs(diff - angle) <= 1.2:  # 1.2° orb
+                if abs(diff - angle) <= 1.2:
                     aspects.append({
                         "progressed_planet": p_prog_name,
                         "natal_planet": p_nat_name,

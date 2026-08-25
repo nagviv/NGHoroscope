@@ -3,7 +3,7 @@ export type Language = 'en' | 'hi' | 'te' | 'ta' | 'sa';
 export const translations: Record<Language, Record<string, string>> = {
   en: {
     appTitle: "JYOTISH PLATFORM",
-    subtitle: "Vedic, KP, Jaimini, Tajika & Western Progressions",
+    subtitle: "Enterprise Vedic, KP, Jaimini, Tajika & Western Progressions Suite",
     exportPdf: "Export PDF",
     parashara: "Parashara",
     kp: "KP System",

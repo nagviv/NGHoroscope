@@ -17,7 +17,6 @@ export const ProgressionsPanel: React.FC<{ data: ProgressionResponse }> = ({ dat
         </span>
       </div>
 
-      {/* Aspects Grid */}
       <div className="space-y-3">
         <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
           <Zap className="w-3.5 h-3.5 text-amber-400" /> Active Progressed-to-Natal Aspects (1° Orb)

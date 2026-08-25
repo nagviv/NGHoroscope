@@ -12,6 +12,7 @@ import { SynastryPanel } from './components/SynastryPanel';
 import { VarshaphalaPanel } from './components/VarshaphalaPanel';
 import { ChakraPanel } from './components/ChakraPanel';
 import { ProgressionsPanel } from './components/ProgressionsPanel';
+import { LiveTransitTicker } from './components/LiveTransitTicker';
 import { AIQuestionPanel } from './components/AIQuestionPanel';
 import { Download, Loader2, Globe } from 'lucide-react';
 
@@ -72,7 +73,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-6 max-w-7xl mx-auto space-y-8">
+    <div className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-6 max-w-7xl mx-auto space-y-6">
+      {/* Live Transit Ticker */}
+      <LiveTransitTicker />
+
       <header className="flex flex-col md:flex-row justify-between items-center pb-6 border-b border-slate-800 gap-4">
         <div>
           <h1 className="text-3xl font-cinzel font-bold text-amber-400">{t.appTitle}</h1>
@@ -92,9 +96,9 @@ export default function App() {
           <button onClick={downloadPDF} disabled={downloading} className="bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 text-amber-300 px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition">
             {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />} {t.exportPdf}
           </button>
-          <div className="flex gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs">
+          <div className="flex gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs overflow-x-auto max-w-full">
             {(['Parashara', 'KP', 'Jaimini', 'Muhurta', 'Kakshya', 'Synastry', 'Varshaphala', 'Chakras', 'Progressions'] as const).map(tab => (
-              <button key={tab} onClick={() => setActiveTab(tab)} className={`px-3 py-1.5 rounded-lg ${activeTab === tab ? 'bg-amber-500 text-slate-950 font-bold' : 'text-slate-400'}`}>
+              <button key={tab} onClick={() => setActiveTab(tab)} className={`px-3 py-1.5 rounded-lg whitespace-nowrap ${activeTab === tab ? 'bg-amber-500 text-slate-950 font-bold' : 'text-slate-400'}`}>
                 {t[tab.toLowerCase() as keyof typeof t] || tab}
               </button>
             ))}
