@@ -35,6 +35,7 @@ export interface NatalChartResponse {
     kaal_sarp: { is_present: boolean; type: string };
   };
   ashtakavarga: { total_bindus: number; sav_by_rashi: Record<string, number> };
+  shadbala: Record<string, { total_virupas: number; total_rupas: number; strength_ratio: number; is_strong: boolean }>;
 }
 
 export interface AIAnswerResponse {

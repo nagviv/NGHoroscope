@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 from app.models.requests import BirthDetailsRequest, MatchMakingRequest, AIQuestionRequest, TransitRequest
 from app.models.responses import NatalChartResponse, MatchMakingResponse, AIAnswerResponse, TransitResponse, PanchangResponse
@@ -7,11 +8,12 @@ from app.services.match_service import MatchService
 from app.services.ai_service import AIService
 from app.services.transit_service import TransitService
 from app.services.panchang_service import PanchangService
+from app.services.pdf_service import PDFService
 
 app = FastAPI(
     title="Jyotish Engine & AI Astrologer API",
-    description="High-precision Vedic Astrological Microservice with AI Q&A and Transit Analytics",
-    version="5.0.0"
+    description="High-precision Vedic Astrological Microservice with PDF Reports and AI Q&A",
+    version="6.0.0"
 )
 
 app.add_middleware(
@@ -24,11 +26,17 @@ app.add_middleware(
 
 @app.get("/health", tags=["Status"])
 def health_check():
-    return {"status": "healthy", "version": "5.0.0", "service": "jyotish-core-ai"}
+    return {"status": "healthy", "version": "6.0.0", "service": "jyotish-core-ai"}
 
 @app.post("/api/v1/chart/natal", response_model=NatalChartResponse, tags=["Charts"])
 def create_natal_chart(payload: BirthDetailsRequest):
     return ChartService.generate_natal_chart(payload)
+
+@app.post("/api/v1/chart/pdf", tags=["Reports"])
+def export_kundli_pdf(payload: BirthDetailsRequest):
+    """Generates and returns an exportable PDF Kundli report."""
+    pdf_bytes = PDFService.generate_kundli_pdf(payload)
+    return Response(content=pdf_bytes, media_type="application/pdf", headers={"Content-Disposition": "attachment; filename=kundli_report.pdf"})
 
 @app.post("/api/v1/chart/transits", response_model=TransitResponse, tags=["Transits"])
 def get_current_transits(payload: TransitRequest):

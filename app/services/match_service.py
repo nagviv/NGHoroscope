@@ -13,12 +13,10 @@ class MatchService:
         g_dt = datetime(req.groom.year, req.groom.month, req.groom.day, req.groom.hour, req.groom.minute, req.groom.second)
         b_chart = compute_chart_raw(b_dt, req.bride.timezone_offset, req.bride.latitude, req.bride.longitude)
         g_chart = compute_chart_raw(g_dt, req.groom.timezone_offset, req.groom.latitude, req.groom.longitude)
-        
         b_moon_sign = b_chart["planets"]["Moon"]["sign"]
         b_nak_idx = NAKSHATRAS.index(b_chart["planets"]["Moon"]["nakshatra"])
         g_moon_sign = g_chart["planets"]["Moon"]["sign"]
         g_nak_idx = NAKSHATRAS.index(g_chart["planets"]["Moon"]["nakshatra"])
-        
         ashtakoota_res = calculate_ashtakoota(b_moon_sign, b_nak_idx, g_moon_sign, g_nak_idx)
         score = ashtakoota_res["total_score"]
         overall = "Excellent Compatibility" if score >= 24 else "Good Alignment"

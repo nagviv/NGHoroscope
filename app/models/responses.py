@@ -48,6 +48,7 @@ class NatalChartResponse(BaseModel):
     yogas: List[YogaItem]
     doshas: DoshaAnalysis
     ashtakavarga: Dict[str, Any]
+    shadbala: Dict[str, Any]
 
 class MatchMakingResponse(BaseModel):
     ashtakoota: Dict[str, Any]

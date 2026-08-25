@@ -28,4 +28,4 @@ def check_kaal_sarp_dosha(chart: Dict[str, Any]) -> Dict[str, Any]:
     visible = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
     side_a = sum(1 for p in visible if ((chart["planets"][p]["longitude"] - rahu_lon) % 360.0) < 180.0)
     is_present = (side_a == 7 or side_a == 0)
-    return {"is_present": is_present, "type": "Full Kaal Sarp" if is_present else "None", "description": "Planetary nodal hemmed axis."}
+    return {"is_present": is_present, "type": "Full Kaal Sarp" if is_present else "None", "description": "Planetary nodal axis."}

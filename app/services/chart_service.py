@@ -6,6 +6,7 @@ from app.core.dasha import calculate_vimshottari
 from app.core.yogas import detect_yogas
 from app.core.doshas import check_mangal_dosha, check_sade_sati, check_kaal_sarp_dosha
 from app.core.ashtakavarga import calculate_ashtakavarga
+from app.core.shadbala import calculate_shadbala_summary
 
 class ChartService:
     @staticmethod
@@ -24,6 +25,7 @@ class ChartService:
             "kaal_sarp": check_kaal_sarp_dosha(raw)
         }
         ashtakavarga = calculate_ashtakavarga(raw)
+        shadbala = calculate_shadbala_summary(raw)
         
         v_d1 = {"Ascendant": raw["ascendant"]["sign"]}
         v_d9 = {"Ascendant": raw["ascendant"]["d9_sign"]}
@@ -40,5 +42,6 @@ class ChartService:
             vimshottari_dasha=dasha_tree,
             yogas=yogas,
             doshas=doshas,
-            ashtakavarga=ashtakavarga
+            ashtakavarga=ashtakavarga,
+            shadbala=shadbala
         )
