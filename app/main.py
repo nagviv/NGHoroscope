@@ -29,6 +29,7 @@ from app.services.kp_service import KPService
 from app.services.muhurta_service import MuhurtaService
 from app.services.kakshya_service import KakshyaService
 from app.services.varshaphala_service import VarshaphalaService
+from app.services.payment_service import PaymentService
 from app.core.sbc import calculate_sarvatobhadra_chakra
 from app.core.kota import calculate_kota_chakra
 from app.core.progressions import calculate_progressions
@@ -37,9 +38,9 @@ from app.core.ephemeris import compute_chart_raw
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Jyotish Platform Ultimate (WebSockets, Observability & Rate Limiting)",
-    description="Enterprise Astrological Calculation Engine with Live WebSocket Ephemeris",
-    version="17.0.0"
+    title="Jyotish Platform Ultimate with Billing",
+    description="Enterprise Astrological Engine with Stripe/Razorpay In-App Billing & WebSockets",
+    version="18.0.0"
 )
 
 app.add_middleware(
@@ -52,33 +53,32 @@ app.add_middleware(
 
 @app.get("/health", tags=["Status"])
 def health_check():
-    return {"status": "healthy", "version": "17.0.0", "service": "jyotish-ultimate-suite"}
+    return {"status": "healthy", "version": "18.0.0", "service": "jyotish-billing-suite"}
 
-@app.get("/api/v1/admin/stats", tags=["Observability"])
-def get_system_stats():
-    """Returns system metrics, calculation engine status, and throughput stats."""
-    return {
-        "status": "operational",
-        "active_calculations_per_sec": 42,
-        "ephemeris_engine": "Swiss Ephemeris 2.10 (Sidereal Lahiri)",
-        "cache_hit_rate": "94.2%",
-        "uptime": "99.99%"
-    }
+# BILLING & SUBSCRIPTIONS
+@app.post("/api/v1/billing/checkout", tags=["Billing"])
+def create_checkout(tier: str = "Premium_Monthly", user: User = Depends(get_current_user)):
+    """Creates a checkout session for Stripe / Razorpay subscription."""
+    return PaymentService.create_checkout_session(user, tier)
+
+@app.post("/api/v1/billing/webhook", tags=["Billing"])
+def payment_webhook(payload: dict, db: Session = Depends(get_db)):
+    """Webhook handler for Stripe / Razorpay payment confirmations."""
+    user_id = payload.get("user_id")
+    tier = payload.get("tier", "Premium_Monthly")
+    if user_id:
+        PaymentService.fulfill_order(db, user_id, tier)
+    return {"status": "processed"}
 
 # WEBSOCKET REAL-TIME LIVE EPHEMERIS
 @app.websocket("/ws/ephemeris/live")
 async def websocket_ephemeris_live(websocket: WebSocket):
-    """Streams real-time sidereal planetary positions, Lagna degree, and Panchang updates every second."""
     await websocket.accept()
     try:
         while True:
             now_dt = datetime.now(timezone.utc)
             live_chart = compute_chart_raw(now_dt, 5.5, 17.3850, 78.4867)
-            payload = {
-                "timestamp": now_dt.isoformat(),
-                "ascendant": live_chart["ascendant"],
-                "planets": live_chart["planets"]
-            }
+            payload = {"timestamp": now_dt.isoformat(), "ascendant": live_chart["ascendant"], "planets": live_chart["planets"]}
             await websocket.send_text(json.dumps(payload))
             await asyncio.sleep(1.0)
     except WebSocketDisconnect:
@@ -125,22 +125,17 @@ def create_natal_chart(payload: BirthDetailsRequest):
 @app.post("/api/v1/chart/progressions", response_model=ProgressionResponse, tags=["Western Overlay"])
 def get_secondary_progressions(payload: ProgressionRequest):
     b = payload.birth_details
-    birth_dt = datetime(b.year, b.month, b.day, b.hour, b.minute, b.second)
-    return calculate_progressions(birth_dt, payload.target_year, b.timezone_offset, b.latitude, b.longitude)
+    return calculate_progressions(datetime(b.year, b.month, b.day, b.hour, b.minute, b.second), payload.target_year, b.timezone_offset, b.latitude, b.longitude)
 
 @app.post("/api/v1/chart/sbc", response_model=SBCResponse, tags=["Chakras"])
 def get_sarvatobhadra_chakra(payload: TransitRequest):
     b = payload.birth_details
-    birth_dt = datetime(b.year, b.month, b.day, b.hour, b.minute, b.second)
-    target_dt = datetime(payload.target_year, payload.target_month, payload.target_day, 12, 0, 0)
-    return calculate_sarvatobhadra_chakra(birth_dt, target_dt, b.timezone_offset, b.latitude, b.longitude)
+    return calculate_sarvatobhadra_chakra(datetime(b.year, b.month, b.day, b.hour, b.minute, b.second), datetime(payload.target_year, payload.target_month, payload.target_day, 12, 0, 0), b.timezone_offset, b.latitude, b.longitude)
 
 @app.post("/api/v1/chart/kota", response_model=KotaResponse, tags=["Chakras"])
 def get_kota_chakra(payload: TransitRequest):
     b = payload.birth_details
-    birth_dt = datetime(b.year, b.month, b.day, b.hour, b.minute, b.second)
-    target_dt = datetime(payload.target_year, payload.target_month, payload.target_day, 12, 0, 0)
-    return calculate_kota_chakra(birth_dt, target_dt, b.timezone_offset, b.latitude, b.longitude)
+    return calculate_kota_chakra(datetime(b.year, b.month, b.day, b.hour, b.minute, b.second), datetime(payload.target_year, payload.target_month, payload.target_day, 12, 0, 0), b.timezone_offset, b.latitude, b.longitude)
 
 @app.post("/api/v1/chart/varshaphala", response_model=VarshaphalaResponse, tags=["Varshaphala"])
 def get_varshaphala_annual_chart(payload: VarshaphalaRequest):

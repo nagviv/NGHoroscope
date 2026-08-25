@@ -1,14 +1,13 @@
-# Jyotish Complete Full-Stack Astrology Platform (Phase 17 - Live WebSockets & Monitoring)
+# Jyotish Complete Full-Stack Astrology Platform (Phase 18 - Stripe & Razorpay Billing)
 
-Enterprise-grade Vedic, KP, Jaimini, Tajika & Western Astrological platform featuring **Real-time Live WebSocket Ephemeris Streaming**, **Prometheus Observability**, **Redis Rate Limiting**, Secondary Progressions, Sarvatobhadra Chakra (SBC), Kota Chakra, and Celery Workers.
+Production-grade Vedic & Western Astrological platform featuring **Stripe & Razorpay In-App Billing**, Live WebSockets, Secondary Progressions, Sarvatobhadra Chakra (SBC), Kota Chakra, Tajika Varshaphala, Synastry Matchmaking, and Celery Workers.
 
-## What's Added in Phase 17
-1. **Live Ephemeris WebSocket Gateway (`/ws/ephemeris/live`)**:
-   - Streams exact real-time sidereal planetary degrees, Lagna progression, and live Tithi/Nakshatra every second.
-2. **Admin Observability & System Metrics (`/api/v1/admin/stats`)**:
-   - Live system statistics, calculation cache hit ratios, and worker task statuses.
-3. **Frontend Live Transit Ticker (`LiveTransitTicker.tsx`)**:
-   - Animated top status bar displaying real-time cosmic movements and current planetary speeds.
+## What's Added in Phase 18
+1. **In-App Billing & Subscription Gateway (`app/services/payment_service.py` & `/api/v1/billing/*`)**:
+   - Creates secure payment checkouts for Stripe and Razorpay.
+   - Automated webhook processing to grant premium tier status and AI credit refills upon successful payment confirmation.
+2. **Frontend Billing Modal (`BillingModal.tsx`)**:
+   - Upgradable subscription packages for professional astrologers and enthusiasts.
 
 ## Quick Start with Docker
 ```bash

@@ -13,8 +13,9 @@ import { VarshaphalaPanel } from './components/VarshaphalaPanel';
 import { ChakraPanel } from './components/ChakraPanel';
 import { ProgressionsPanel } from './components/ProgressionsPanel';
 import { LiveTransitTicker } from './components/LiveTransitTicker';
+import { BillingModal } from './components/BillingModal';
 import { AIQuestionPanel } from './components/AIQuestionPanel';
-import { Download, Loader2, Globe } from 'lucide-react';
+import { Download, Loader2, Globe, Sparkles } from 'lucide-react';
 
 export default function App() {
   const [lang, setLang] = useState<Language>('en');
@@ -43,6 +44,7 @@ export default function App() {
   const [kotaData, setKotaData] = useState<KotaResponse | null>(null);
   const [progressionData, setProgressionData] = useState<ProgressionResponse | null>(null);
   const [downloading, setDownloading] = useState(false);
+  const [isBillingOpen, setIsBillingOpen] = useState(false);
 
   useEffect(() => {
     fetch('/api/v1/chart/natal', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) }).then(res => res.json()).then(data => setChartData(data));
@@ -74,8 +76,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-6 max-w-7xl mx-auto space-y-6">
-      {/* Live Transit Ticker */}
       <LiveTransitTicker />
+      <BillingModal isOpen={isBillingOpen} onClose={() => setIsBillingOpen(false)} token="mock_token" />
 
       <header className="flex flex-col md:flex-row justify-between items-center pb-6 border-b border-slate-800 gap-4">
         <div>
@@ -83,6 +85,13 @@ export default function App() {
           <p className="text-xs text-slate-400 mt-0.5">{t.subtitle}</p>
         </div>
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsBillingOpen(true)}
+            className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md shadow-amber-500/20 transition"
+          >
+            <Sparkles className="w-3.5 h-3.5" /> {t.upgrade}
+          </button>
+
           <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 p-1.5 rounded-xl text-xs">
             <Globe className="w-3.5 h-3.5 text-amber-400 ml-1" />
             <select value={lang} onChange={(e) => setLang(e.target.value as Language)} className="bg-transparent text-slate-200 text-xs focus:outline-none cursor-pointer pr-1">

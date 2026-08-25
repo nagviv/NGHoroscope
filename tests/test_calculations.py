@@ -8,7 +8,9 @@ def test_health():
     assert res.status_code == 200
     assert res.json()["status"] == "healthy"
 
-def test_admin_stats():
-    res = client.get("/api/v1/admin/stats")
+def test_billing_checkout():
+    reg = client.post("/api/v1/auth/register", json={"name": "Sub", "email": "sub@test.com", "password": "Password123"})
+    token = client.post("/api/v1/auth/login", json={"email": "sub@test.com", "password": "Password123"}).json()["access_token"]
+    res = client.post("/api/v1/billing/checkout?tier=Premium_Monthly", headers={"Authorization": f"Bearer {token}"})
     assert res.status_code == 200
-    assert "active_calculations_per_sec" in res.json()
+    assert "checkout_url" in res.json()

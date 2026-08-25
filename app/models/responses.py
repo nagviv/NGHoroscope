@@ -22,7 +22,7 @@ class ProfileResponse(BaseModel):
     longitude: float
     location_name: str
     class Config:
-        from attributes = True
+        from_attributes = True
 
 class EntityPosition(BaseModel):
     longitude: float

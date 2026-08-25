@@ -13,7 +13,8 @@ export const translations: Record<Language, Record<string, string>> = {
     synastry: "Matchmaking",
     varshaphala: "Varshaphala",
     chakras: "Chakras",
-    progressions: "Progressions"
+    progressions: "Progressions",
+    upgrade: "Upgrade Plan"
   },
   hi: {
     appTitle: "ज्योतिष मंच",
@@ -27,7 +28,8 @@ export const translations: Record<Language, Record<string, string>> = {
     synastry: "कुंडली मिलान",
     varshaphala: "वर्षफल",
     chakras: "सर्वतोभद्र चक्र",
-    progressions: "प्रोग्रेशन"
+    progressions: "प्रोग्रेशन",
+    upgrade: "अपग्रेड करें"
   },
   te: {
     appTitle: "జ్యోతిష వేదిక",
@@ -41,7 +43,8 @@ export const translations: Record<Language, Record<string, string>> = {
     synastry: "పొంతన",
     varshaphala: "వర్షఫలం",
     chakras: "చక్రములు",
-    progressions: "ప్రోగ్రెషన్స్"
+    progressions: "ప్రోగ్రెషన్స్",
+    upgrade: "ప్లాన్ అప్‌గ్రేడ్"
   },
   ta: {
     appTitle: "ஜோதிட தளம்",
@@ -55,7 +58,8 @@ export const translations: Record<Language, Record<string, string>> = {
     synastry: "பொருத்தம்",
     varshaphala: "வருட பலன்",
     chakras: "சக்கரங்கள்",
-    progressions: "முன்னேற்றங்கள்"
+    progressions: "முன்னேற்றங்கள்",
+    upgrade: "திட்டத்தை மேம்படுத்தவும்"
   },
   sa: {
     appTitle: "ज्योतिषशास्त्रम्",
@@ -69,6 +73,7 @@ export const translations: Record<Language, Record<string, string>> = {
     synastry: "गुणमेलनम्",
     varshaphala: "वर्षफलम्",
     chakras: "चक्रविधानम्",
-    progressions: "प्रगतिः"
+    progressions: "प्रगतिः",
+    upgrade: "सदस्यता वर्धनम्"
   }
 };
