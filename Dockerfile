@@ -1,6 +1,6 @@
 FROM node:18-alpine AS frontend-build
 WORKDIR /app/frontend
-COPY frontend/package.json frontend/package-lock.json ./
+COPY frontend/package.json ./
 RUN npm install
 COPY frontend/ ./
 RUN npm run build
@@ -8,6 +8,8 @@ RUN npm run build
 FROM python:3.11-slim
 WORKDIR /app
 RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential gcc
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
