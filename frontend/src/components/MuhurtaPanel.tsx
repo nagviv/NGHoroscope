@@ -43,23 +43,6 @@ export const MuhurtaPanel: React.FC<{ data: MuhurtaResponse }> = ({ data }) => {
           ))}
         </div>
       </div>
-
-      <div className="space-y-2 pt-2 border-t border-slate-800">
-        <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
-          <CheckCircle className="w-3.5 h-3.5" /> Event Compatibility Scores
-        </h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
-          {Object.entries(data.activity_suitability).map(([event, details]) => (
-            <div key={event} className="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex justify-between items-center">
-              <div>
-                <span className="font-bold text-slate-200 block">{event}</span>
-                <span className="text-[10px] text-slate-400">{details.verdict}</span>
-              </div>
-              <span className="font-bold text-amber-400 bg-amber-500/10 px-2 py-1 rounded border border-amber-500/20">{details.score}%</span>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };

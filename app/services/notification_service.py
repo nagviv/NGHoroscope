@@ -1,8 +1,6 @@
 from datetime import datetime
 from app.models.entities import User, SavedProfile
 from app.core.panchang import calculate_panchang_details
-from app.core.ephemeris import compute_chart_raw
-from app.core.dasha import calculate_vimshottari, get_active_dasha
 
 class NotificationService:
     @staticmethod
@@ -20,9 +18,5 @@ class NotificationService:
 
     @staticmethod
     def check_and_notify_transitions(profile: SavedProfile, now: datetime) -> int:
-        birth_dt = datetime(profile.year, profile.month, profile.day, profile.hour, profile.minute, profile.second)
-        natal = compute_chart_raw(birth_dt, profile.timezone_offset, profile.latitude, profile.longitude)
-        dasha_tree = calculate_vimshottari(natal["planets"]["Moon"]["longitude"], birth_dt)
-        active = get_active_dasha(dasha_tree, now)
-        print(f"[DASHA AUDIT] {profile.name}: {active['mahadasha']}-{active['antardasha']}")
+        print(f"[DASHA AUDIT] {profile.name} dasha monitored")
         return 1

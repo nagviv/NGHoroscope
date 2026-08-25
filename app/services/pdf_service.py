@@ -13,9 +13,9 @@ class PDFService:
         buffer = io.BytesIO()
         doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
         styles = getSampleStyleSheet()
-        title_style = ParagraphStyle('TitleStyle', parent=styles['Heading1'], fontName='Helvetica-Bold', fontSize=20, leading=24, textColor=colors.HexColor('#800020'), alignment=1)
-        sub_style = ParagraphStyle('SubStyle', parent=styles['Normal'], fontName='Helvetica', fontSize=10, leading=14, textColor=colors.HexColor('#4A5568'), alignment=1)
-        heading_style = ParagraphStyle('HeadStyle', parent=styles['Heading2'], fontName='Helvetica-Bold', fontSize=13, leading=16, textColor=colors.HexColor('#1A202C'), spaceAfter=8)
+        title_style = ParagraphStyle('TitleStyle', fontName='Helvetica-Bold', fontSize=20, leading=24, textColor=colors.HexColor('#800020'), alignment=1)
+        sub_style = ParagraphStyle('SubStyle', fontName='Helvetica', fontSize=10, leading=14, textColor=colors.HexColor('#4A5568'), alignment=1)
+        heading_style = ParagraphStyle('HeadStyle', fontName='Helvetica-Bold', fontSize=13, leading=16, textColor=colors.HexColor('#1A202C'), spaceAfter=8)
 
         story = [Paragraph("VEDIC KUNDLI ASTROLOGICAL REPORT", title_style), Paragraph(f"Birth Details: {req.year}-{req.month:02d}-{req.day:02d} {req.hour:02d}:{req.minute:02d}", sub_style), Spacer(1, 15)]
         story.append(Paragraph("1. Planetary Positions (Nirayana Lahiri)", heading_style))

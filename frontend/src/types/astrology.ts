@@ -93,6 +93,18 @@ export interface KakshyaResponse {
   }>;
 }
 
+export interface MatchMakingResponse {
+  ashtakoota: {
+    total_score: number;
+    maximum_score: number;
+    is_recommended: boolean;
+    breakdown: Record<string, { obtained: number; max: number }>;
+  };
+  bride_mangal_dosha: Record<string, any>;
+  groom_mangal_dosha: Record<string, any>;
+  overall_compatibility: string;
+}
+
 export interface SavedProfile {
   id: number;
   name: string;

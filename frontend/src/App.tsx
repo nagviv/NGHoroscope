@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NatalChartResponse, JaiminiResponse, KPResponse, MuhurtaResponse, KakshyaResponse } from './types/astrology';
+import { NatalChartResponse, JaiminiResponse, KPResponse, MuhurtaResponse, KakshyaResponse, MatchMakingResponse } from './types/astrology';
 import { translations, Language } from './utils/i18n';
 import { NorthIndianChart } from './components/NorthIndianChart';
 import { SouthIndianChart } from './components/SouthIndianChart';
@@ -8,6 +8,7 @@ import { JaiminiPanel } from './components/JaiminiPanel';
 import { KPPanel } from './components/KPPanel';
 import { MuhurtaPanel } from './components/MuhurtaPanel';
 import { KakshyaPanel } from './components/KakshyaPanel';
+import { SynastryPanel } from './components/SynastryPanel';
 import { AIQuestionPanel } from './components/AIQuestionPanel';
 import { Download, Loader2, Globe } from 'lucide-react';
 
@@ -20,14 +21,21 @@ export default function App() {
     timezone_offset: 5.5, latitude: 17.3850, longitude: 78.4867
   });
 
-  const [activeTab, setActiveTab] = useState<'Parashara' | 'KP' | 'Jaimini' | 'Muhurta' | 'Kakshya'>('Parashara');
+  const [matchPayload] = useState({
+    bride: { year: 1996, month: 5, day: 10, hour: 10, minute: 15, second: 0, timezone_offset: 5.5, latitude: 28.6139, longitude: 77.2090 },
+    groom: { year: 1994, month: 11, day: 20, hour: 18, minute: 45, second: 0, timezone_offset: 5.5, latitude: 19.0760, longitude: 72.8777 }
+  });
+
+  const [activeTab, setActiveTab] = useState<'Parashara' | 'KP' | 'Jaimini' | 'Muhurta' | 'Kakshya' | 'Synastry'>('Parashara');
   const [chartStyle, setChartStyle] = useState<'North' | 'South' | 'East'>('North');
   const [chartData, setChartData] = useState<NatalChartResponse | null>(null);
   const [jaiminiData, setJaiminiData] = useState<JaiminiResponse | null>(null);
   const [kpData, setKpData] = useState<KPResponse | null>(null);
   const [muhurtaData, setMuhurtaData] = useState<MuhurtaResponse | null>(null);
   const [kakshyaData, setKakshyaData] = useState<KakshyaResponse | null>(null);
+  const [synastryData, setSynastryData] = useState<MatchMakingResponse | null>(null);
   const [downloading, setDownloading] = useState(false);
+  const [downloadingMatch, setDownloadingMatch] = useState(false);
 
   useEffect(() => {
     fetch('/api/v1/chart/natal', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) })
@@ -44,6 +52,9 @@ export default function App() {
 
     fetch('/api/v1/chart/kakshya', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ birth_details: formData, target_year: 2026, target_month: 8, target_day: 25 }) })
       .then(res => res.json()).then(data => setKakshyaData(data));
+
+    fetch('/api/v1/matchmaking/ashtakoota', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(matchPayload) })
+      .then(res => res.json()).then(data => setSynastryData(data));
   }, []);
 
   const downloadPDF = async () => {
@@ -60,6 +71,23 @@ export default function App() {
       a.remove();
     } finally {
       setDownloading(false);
+    }
+  };
+
+  const downloadMatchPDF = async () => {
+    setDownloadingMatch(true);
+    try {
+      const res = await fetch('/api/v1/matchmaking/pdf', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(matchPayload) });
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Matchmaking_Report.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } finally {
+      setDownloadingMatch(false);
     }
   };
 
@@ -96,7 +124,7 @@ export default function App() {
           </button>
           
           <div className="flex gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs">
-            {(['Parashara', 'KP', 'Jaimini', 'Muhurta', 'Kakshya'] as const).map(tab => (
+            {(['Parashara', 'KP', 'Jaimini', 'Muhurta', 'Kakshya', 'Synastry'] as const).map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)} className={`px-3 py-1.5 rounded-lg ${activeTab === tab ? 'bg-amber-500 text-slate-950 font-bold' : 'text-slate-400'}`}>
                 {t[tab.toLowerCase() as keyof typeof t] || tab}
               </button>
@@ -122,6 +150,7 @@ export default function App() {
           {activeTab === 'Jaimini' && jaiminiData && <JaiminiPanel data={jaiminiData} />}
           {activeTab === 'Muhurta' && muhurtaData && <MuhurtaPanel data={muhurtaData} />}
           {activeTab === 'Kakshya' && kakshyaData && <KakshyaPanel data={kakshyaData} />}
+          {activeTab === 'Synastry' && synastryData && <SynastryPanel data={synastryData} onExportPDF={downloadMatchPDF} isDownloading={downloadingMatch} />}
         </div>
         <div className="lg:col-span-6 space-y-6">
           <AIQuestionPanel birthDetails={formData} />

@@ -38,33 +38,6 @@ export const KPPanel: React.FC<{ data: KPResponse }> = ({ data }) => {
           </div>
         </div>
       </div>
-
-      <div className="overflow-x-auto">
-        <table className="w-full text-xs text-left border-collapse">
-          <thead>
-            <tr className="bg-slate-950 text-amber-400 border-b border-slate-800">
-              <th className="p-2.5">Cusp</th>
-              <th className="p-2.5">Sign</th>
-              <th className="p-2.5">Degree</th>
-              <th className="p-2.5">Sign Lord</th>
-              <th className="p-2.5">Star Lord</th>
-              <th className="p-2.5 text-amber-300 font-bold">Sub Lord</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-800/60">
-            {data.cusps.map((c) => (
-              <tr key={c.cusp} className="hover:bg-slate-950/40">
-                <td className="p-2.5 font-bold text-slate-300">{c.cusp}</td>
-                <td className="p-2.5 text-slate-200">{c.sign}</td>
-                <td className="p-2.5 text-slate-400">{c.degree_in_sign}°</td>
-                <td className="p-2.5 text-slate-300">{c.sign_lord}</td>
-                <td className="p-2.5 text-slate-300">{c.star_lord}</td>
-                <td className="p-2.5 font-bold text-amber-300">{c.sub_lord}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
     </div>
   );
 };

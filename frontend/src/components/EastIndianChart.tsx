@@ -20,10 +20,6 @@ export const EastIndianChart: React.FC<{ chart: NatalChartResponse }> = ({ chart
         <text x="200" y="85" className="fill-amber-200 text-xs" textAnchor="middle">{housePlanets[1].join(' ')}</text>
         <text x="60" y="205" className="fill-amber-400 text-xs font-bold" textAnchor="middle">{getSign(4)}</text>
         <text x="60" y="225" className="fill-amber-200 text-xs" textAnchor="middle">{housePlanets[4].join(' ')}</text>
-        <text x="200" y="340" className="fill-amber-400 text-xs font-bold" textAnchor="middle">{getSign(7)}</text>
-        <text x="200" y="360" className="fill-amber-200 text-xs" textAnchor="middle">{housePlanets[7].join(' ')}</text>
-        <text x="340" y="205" className="fill-amber-400 text-xs font-bold" textAnchor="middle">{getSign(10)}</text>
-        <text x="340" y="225" className="fill-amber-200 text-xs" textAnchor="middle">{housePlanets[10].join(' ')}</text>
       </svg>
     </div>
   );

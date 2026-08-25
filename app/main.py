@@ -20,6 +20,7 @@ from app.services.ai_service import AIService
 from app.services.transit_service import TransitService
 from app.services.panchang_service import PanchangService
 from app.services.pdf_service import PDFService
+from app.services.match_pdf_service import MatchPDFService
 from app.services.jaimini_service import JaiminiService
 from app.services.kp_service import KPService
 from app.services.muhurta_service import MuhurtaService
@@ -28,9 +29,9 @@ from app.services.kakshya_service import KakshyaService
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Jyotish Platform API (Vedic, KP, Jaimini, Muhurta & Kakshya)",
-    description="Comprehensive Astrological Engine with Kakshya Ashtakavarga Transits",
-    version="12.0.0"
+    title="Jyotish Platform API (Vedic, KP, Jaimini, Muhurta, Synastry & PDF)",
+    description="Comprehensive Astrological Engine with Synastry & PDF Generation",
+    version="13.0.0"
 )
 
 app.add_middleware(
@@ -43,7 +44,7 @@ app.add_middleware(
 
 @app.get("/health", tags=["Status"])
 def health_check():
-    return {"status": "healthy", "version": "12.0.0", "service": "jyotish-complete-engine"}
+    return {"status": "healthy", "version": "13.0.0", "service": "jyotish-complete-engine"}
 
 # AUTH & PROFILES
 @app.post("/api/v1/auth/register", response_model=UserAuthResponse, tags=["Auth"])
@@ -85,7 +86,6 @@ def create_natal_chart(payload: BirthDetailsRequest):
 
 @app.post("/api/v1/chart/kakshya", response_model=KakshyaResponse, tags=["Ashtakavarga"])
 def get_kakshya_transits(payload: TransitRequest):
-    """Calculates Ashtakavarga 8-Kakshya precision transit fruit scores."""
     return KakshyaService.calculate_kakshya_system(payload)
 
 @app.post("/api/v1/muhurta/calculate", response_model=MuhurtaResponse, tags=["Muhurta"])
@@ -105,6 +105,16 @@ def export_kundli_pdf(payload: BirthDetailsRequest):
     pdf_bytes = PDFService.generate_kundli_pdf(payload)
     return Response(content=pdf_bytes, media_type="application/pdf", headers={"Content-Disposition": "attachment; filename=kundli_report.pdf"})
 
+@app.post("/api/v1/matchmaking/ashtakoota", response_model=MatchMakingResponse, tags=["Synastry"])
+def compute_matchmaking(payload: MatchMakingRequest):
+    return MatchService.calculate_compatibility(payload)
+
+@app.post("/api/v1/matchmaking/pdf", tags=["Reports"])
+def export_matchmaking_pdf(payload: MatchMakingRequest):
+    """Generates and returns an Ashtakoota Matchmaking Synastry PDF report."""
+    pdf_bytes = MatchPDFService.generate_compatibility_pdf(payload)
+    return Response(content=pdf_bytes, media_type="application/pdf", headers={"Content-Disposition": "attachment; filename=matchmaking_report.pdf"})
+
 @app.post("/api/v1/chart/transits", response_model=TransitResponse, tags=["Transits"])
 def get_current_transits(payload: TransitRequest):
     return TransitService.calculate_transits(payload)
@@ -112,10 +122,6 @@ def get_current_transits(payload: TransitRequest):
 @app.post("/api/v1/panchang/daily", response_model=PanchangResponse, tags=["Panchang"])
 def get_daily_panchang(payload: BirthDetailsRequest):
     return PanchangService.calculate_panchang(payload)
-
-@app.post("/api/v1/matchmaking/ashtakoota", response_model=MatchMakingResponse, tags=["Synastry"])
-def compute_matchmaking(payload: MatchMakingRequest):
-    return MatchService.calculate_compatibility(payload)
 
 @app.post("/api/v1/ai/ask", response_model=AIAnswerResponse, tags=["AI Astrologer"])
 def ask_ai_astrologer(payload: AIQuestionRequest):
