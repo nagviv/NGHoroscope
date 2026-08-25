@@ -1,13 +1,12 @@
-# Jyotish Complete Full-Stack Astrology Platform (Phase 18 - Stripe & Razorpay Billing)
+# Jyotish Complete Full-Stack Astrology Platform (Phase 19 - Enterprise Security & Prometheus Metrics)
 
-Production-grade Vedic & Western Astrological platform featuring **Stripe & Razorpay In-App Billing**, Live WebSockets, Secondary Progressions, Sarvatobhadra Chakra (SBC), Kota Chakra, Tajika Varshaphala, Synastry Matchmaking, and Celery Workers.
+Production-grade Vedic & Western Astrological platform featuring **Prometheus Metrics Export**, **Enterprise Security Headers Middleware**, Stripe/Razorpay In-App Billing, Live WebSockets, Secondary Progressions, Sarvatobhadra Chakra (SBC), Kota Chakra, Tajika Varshaphala, Synastry Matchmaking, and Celery Workers.
 
-## What's Added in Phase 18
-1. **In-App Billing & Subscription Gateway (`app/services/payment_service.py` & `/api/v1/billing/*`)**:
-   - Creates secure payment checkouts for Stripe and Razorpay.
-   - Automated webhook processing to grant premium tier status and AI credit refills upon successful payment confirmation.
-2. **Frontend Billing Modal (`BillingModal.tsx`)**:
-   - Upgradable subscription packages for professional astrologers and enthusiasts.
+## What's Added in Phase 19
+1. **Prometheus Metrics Exporter (`app/metrics.py` & `/metrics`)**:
+   - Real-time performance monitoring of API request counts, latencies, and calculation execution times.
+2. **Security Headers Middleware (`app/middleware/security.py`)**:
+   - Hardens the HTTP transport layer against XSS, clickjacking, and MIME-sniffing.
 
 ## Quick Start with Docker
 ```bash
