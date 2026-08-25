@@ -12,10 +12,8 @@ class ChartService:
     def generate_natal_chart(req: BirthDetailsRequest) -> NatalChartResponse:
         birth_dt = datetime(req.year, req.month, req.day, req.hour, req.minute, req.second)
         raw = compute_chart_raw(birth_dt, req.timezone_offset, req.latitude, req.longitude)
-        
         moon_lon = raw["planets"]["Moon"]["longitude"]
         moon_sign_idx = raw["planets"]["Moon"]["sign_index"]
-        
         dasha_tree = calculate_vimshottari(moon_lon, birth_dt)
         yogas = detect_yogas(raw)
         saturn_sign_idx = raw["planets"]["Saturn"]["sign_index"]

@@ -18,7 +18,7 @@ class MatchMakingRequest(BaseModel):
 
 class AIQuestionRequest(BaseModel):
     birth_details: BirthDetailsRequest
-    question: str = Field(..., example="When is a favorable period for my career switch, and what remedies can enhance my focus?")
+    question: str = Field(..., example="When is a favorable period for my career switch?")
     category: Optional[str] = Field(default="Career", example="Career")
 
 class TransitRequest(BaseModel):

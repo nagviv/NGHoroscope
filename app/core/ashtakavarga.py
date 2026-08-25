@@ -10,11 +10,5 @@ def calculate_ashtakavarga(chart: Dict[str, Any]) -> Dict[str, Any]:
         sav_points[(p_sign + 3) % 12] += 1
         sav_points[(p_sign + 9) % 12] += 1
         sav_points[(p_sign + 10) % 12] -= 1
-        
     sav_by_rashi = {RASHIS[i]: sav_points[i] for i in range(12)}
-    return {
-        "total_bindus": sum(sav_points),
-        "sav_by_rashi": sav_by_rashi,
-        "strongest_rashi": max(sav_by_rashi, key=sav_by_rashi.get),
-        "weakest_rashi": min(sav_by_rashi, key=sav_by_rashi.get)
-    }
+    return {"total_bindus": sum(sav_points), "sav_by_rashi": sav_by_rashi, "strongest_rashi": max(sav_by_rashi, key=sav_by_rashi.get), "weakest_rashi": min(sav_by_rashi, key=sav_by_rashi.get)}

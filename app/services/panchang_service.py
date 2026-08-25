@@ -8,11 +8,4 @@ class PanchangService:
     def calculate_panchang(req: BirthDetailsRequest) -> PanchangResponse:
         dt = datetime(req.year, req.month, req.day, req.hour, req.minute, req.second)
         p = calculate_panchang_details(dt, req.timezone_offset, req.latitude, req.longitude)
-        return PanchangResponse(
-            date=dt.strftime("%Y-%m-%d %H:%M:%S"),
-            tithi=p["tithi"],
-            vara=p["vara"],
-            nakshatra=p["nakshatra"],
-            yoga_index=p["yoga_index"],
-            rahu_kaal=p["rahu_kaal"]
-        )
+        return PanchangResponse(date=dt.strftime("%Y-%m-%d"), tithi=p["tithi"], vara=p["vara"], nakshatra=p["nakshatra"], yoga_index=p["yoga_index"], rahu_kaal=p["rahu_kaal"])

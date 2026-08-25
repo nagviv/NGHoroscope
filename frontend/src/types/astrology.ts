@@ -15,26 +15,12 @@ export interface PlanetPosition extends EntityPosition {
   house: number;
 }
 
-export interface AntardashaItem {
-  lord: string;
-  start_date: string;
-  end_date: string;
-  duration_months: number;
-}
-
 export interface MahadashaItem {
   lord: string;
   start_date: string;
   end_date: string;
   duration_years: number;
   is_balance: boolean;
-  antardashas?: AntardashaItem[];
-}
-
-export interface YogaItem {
-  name: string;
-  category: string;
-  description: string;
 }
 
 export interface NatalChartResponse {
@@ -42,16 +28,13 @@ export interface NatalChartResponse {
   planets: Record<string, PlanetPosition>;
   vargas: Record<string, Record<string, string>>;
   vimshottari_dasha: MahadashaItem[];
-  yogas: YogaItem[];
+  yogas: { name: string; category: string; description: string }[];
   doshas: {
-    mangal_dosha: { is_present: boolean; severity: string; cancellation_reasons: string[] };
-    sade_sati: { is_active: boolean; phase: string; description: string };
+    mangal_dosha: { is_present: boolean; severity: string };
+    sade_sati: { is_active: boolean; phase: string };
     kaal_sarp: { is_present: boolean; type: string };
   };
-  ashtakavarga: {
-    total_bindus: number;
-    sav_by_rashi: Record<string, number>;
-  };
+  ashtakavarga: { total_bindus: number; sav_by_rashi: Record<string, number> };
 }
 
 export interface AIAnswerResponse {

@@ -11,7 +11,7 @@ from app.services.panchang_service import PanchangService
 app = FastAPI(
     title="Jyotish Engine & AI Astrologer API",
     description="High-precision Vedic Astrological Microservice with AI Q&A and Transit Analytics",
-    version="4.0.0"
+    version="5.0.0"
 )
 
 app.add_middleware(
@@ -24,7 +24,7 @@ app.add_middleware(
 
 @app.get("/health", tags=["Status"])
 def health_check():
-    return {"status": "healthy", "version": "4.0.0", "service": "jyotish-core-ai"}
+    return {"status": "healthy", "version": "5.0.0", "service": "jyotish-core-ai"}
 
 @app.post("/api/v1/chart/natal", response_model=NatalChartResponse, tags=["Charts"])
 def create_natal_chart(payload: BirthDetailsRequest):

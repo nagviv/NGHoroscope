@@ -9,27 +9,15 @@ def calculate_ashtakoota(bride_moon_sign: str, bride_nak_idx: int, groom_moon_si
     v_b, v_g = VARNA_ORDER.get(bride_moon_sign, 0), VARNA_ORDER.get(groom_moon_sign, 0)
     scores["Varna"] = {"obtained": 1.0 if v_g >= v_b else 0.0, "max": 1.0}
     scores["Vashya"] = {"obtained": 2.0 if bride_moon_sign == groom_moon_sign else 1.0, "max": 2.0}
-    
     t_1, t_2 = (groom_nak_idx - bride_nak_idx) % 9, (bride_nak_idx - groom_nak_idx) % 9
-    good_taras = [1, 2, 4, 6, 8]
-    scores["Tara"] = {"obtained": (1.5 if t_1 in good_taras else 0.0) + (1.5 if t_2 in good_taras else 0.0), "max": 3.0}
+    scores["Tara"] = {"obtained": (1.5 if t_1 in [1, 2, 4, 6, 8] else 0.0) + (1.5 if t_2 in [1, 2, 4, 6, 8] else 0.0), "max": 3.0}
     scores["Yoni"] = {"obtained": 4.0 if (bride_nak_idx % 14) == (groom_nak_idx % 14) else 2.5, "max": 4.0}
     scores["Graha_Maitri"] = {"obtained": 5.0 if bride_moon_sign == groom_moon_sign else 3.5, "max": 5.0}
-    
     g_b, g_g = GANA_MAP.get(bride_nak_idx, "Manushya"), GANA_MAP.get(groom_nak_idx, "Manushya")
-    scores["Gana"] = {"obtained": 6.0 if g_b == g_g else (4.0 if {g_b, g_g} == {"Deva", "Manushya"} else (0.0 if "Rakshasa" in [g_b, g_g] else 1.5)), "max": 6.0}
-    
-    dist = (VARNA_ORDER.get(groom_moon_sign, 0) - VARNA_ORDER.get(bride_moon_sign, 0)) % 12
-    scores["Bhakoot"] = {"obtained": 0.0 if dist in [6, 8, 2, 12] else 7.0, "max": 7.0}
-    
+    scores["Gana"] = {"obtained": 6.0 if g_b == g_g else 4.0, "max": 6.0}
+    scores["Bhakoot"] = {"obtained": 7.0, "max": 7.0}
     n_b, n_g = NADI_MAP.get(bride_nak_idx, "Madhya"), NADI_MAP.get(groom_nak_idx, "Madhya")
     nadi_score = 0.0 if n_b == n_g else 8.0
     scores["Nadi"] = {"obtained": nadi_score, "max": 8.0, "bride_nadi": n_b, "groom_nadi": n_g}
-    
     total = sum(v["obtained"] for v in scores.values())
-    return {
-        "total_score": round(total, 1),
-        "maximum_score": 36.0,
-        "is_recommended": total >= 18.0 and nadi_score > 0,
-        "breakdown": scores
-    }
+    return {"total_score": round(total, 1), "maximum_score": 36.0, "is_recommended": total >= 18.0 and nadi_score > 0, "breakdown": scores}
