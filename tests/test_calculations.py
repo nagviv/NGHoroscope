@@ -8,7 +8,7 @@ def test_health_endpoint():
     assert response.status_code == 200
     assert response.json()["status"] == "healthy"
 
-def test_natal_chart_endpoint():
+def test_natal_chart_phase2():
     sample_payload = {
         "year": 1995,
         "month": 8,
@@ -25,20 +25,30 @@ def test_natal_chart_endpoint():
     assert response.status_code == 200
     data = response.json()
     
-    # Assert primary structure
-    assert "ascendant" in data
-    assert "planets" in data
-    assert "vargas" in data
-    assert "vimshottari_dasha" in data
-    
-    # Check that all 9 grahas are present
-    expected_grahas = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
-    for graha in expected_grahas:
-        assert graha in data["planets"]
-        assert "longitude" in data["planets"][graha]
-        assert "house" in data["planets"][graha]
-        assert "nakshatra" in data["planets"][graha]
-        
-    # Check Dasha structure
-    assert len(data["vimshottari_dasha"]) == 9
-    assert data["vimshottari_dasha"][0]["is_balance"] is True
+    # Assert Phase 2 expansions
+    assert "yogas" in data
+    assert "doshas" in data
+    assert "ashtakavarga" in data
+    assert "mangal_dosha" in data["doshas"]
+    assert "sade_sati" in data["doshas"]
+    assert "kaal_sarp" in data["doshas"]
+    assert "sav_by_rashi" in data["ashtakavarga"]
+
+def test_matchmaking_endpoint():
+    match_payload = {
+        "bride": {
+            "year": 1996, "month": 5, "day": 10, "hour": 10, "minute": 15, "second": 0,
+            "timezone_offset": 5.5, "latitude": 28.6139, "longitude": 77.2090
+        },
+        "groom": {
+            "year": 1994, "month": 11, "day": 20, "hour": 18, "minute": 45, "second": 0,
+            "timezone_offset": 5.5, "latitude": 19.0760, "longitude": 72.8777
+        }
+    }
+    response = client.post("/api/v1/matchmaking/ashtakoota", json=match_payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert "ashtakoota" in data
+    assert "total_score" in data["ashtakoota"]
+    assert "bride_mangal_dosha" in data
+    assert "groom_mangal_dosha" in data

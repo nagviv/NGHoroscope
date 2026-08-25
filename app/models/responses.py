@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from pydantic import BaseModel
 
 class EntityPosition(BaseModel):
@@ -30,8 +30,27 @@ class MahadashaItem(BaseModel):
     is_balance: bool
     antardashas: Optional[List[AntardashaItem]] = None
 
+class YogaItem(BaseModel):
+    name: str
+    category: str
+    description: str
+
+class DoshaAnalysis(BaseModel):
+    mangal_dosha: Dict[str, Any]
+    sade_sati: Dict[str, Any]
+    kaal_sarp: Dict[str, Any]
+
 class NatalChartResponse(BaseModel):
     ascendant: EntityPosition
     planets: Dict[str, PlanetPosition]
     vargas: Dict[str, Dict[str, str]]
     vimshottari_dasha: List[MahadashaItem]
+    yogas: List[YogaItem]
+    doshas: DoshaAnalysis
+    ashtakavarga: Dict[str, Any]
+
+class MatchMakingResponse(BaseModel):
+    ashtakoota: Dict[str, Any]
+    bride_mangal_dosha: Dict[str, Any]
+    groom_mangal_dosha: Dict[str, Any]
+    overall_compatibility: str

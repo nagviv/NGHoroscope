@@ -10,3 +10,8 @@ class BirthDetailsRequest(BaseModel):
     timezone_offset: float = Field(..., example=5.5, description="UTC offset in hours, e.g., 5.5 for IST")
     latitude: float = Field(..., ge=-90.0, le=90.0, example=17.3850)
     longitude: float = Field(..., ge=-180.0, le=180.0, example=78.4867)
+
+
+class MatchMakingRequest(BaseModel):
+    bride: BirthDetailsRequest
+    groom: BirthDetailsRequest

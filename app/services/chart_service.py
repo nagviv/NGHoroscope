@@ -3,6 +3,9 @@ from app.models.requests import BirthDetailsRequest
 from app.models.responses import NatalChartResponse
 from app.core.ephemeris import compute_chart_raw
 from app.core.dasha import calculate_vimshottari
+from app.core.yogas import detect_yogas
+from app.core.doshas import check_mangal_dosha, check_sade_sati, check_kaal_sarp_dosha
+from app.core.ashtakavarga import calculate_ashtakavarga
 
 class ChartService:
     @staticmethod
@@ -17,9 +20,21 @@ class ChartService:
         )
         
         moon_lon = raw["planets"]["Moon"]["longitude"]
-        dasha_tree = calculate_vimshottari(moon_lon, birth_dt)
+        moon_sign_idx = raw["planets"]["Moon"]["sign_index"]
         
-        # Build divisional chart summaries
+        dasha_tree = calculate_vimshottari(moon_lon, birth_dt)
+        yogas = detect_yogas(raw)
+        
+        # Doshas & Transits (using Saturn natal sign as baseline transit reference)
+        saturn_sign_idx = raw["planets"]["Saturn"]["sign_index"]
+        doshas = {
+            "mangal_dosha": check_mangal_dosha(raw),
+            "sade_sati": check_sade_sati(moon_sign_idx, saturn_sign_idx),
+            "kaal_sarp": check_kaal_sarp_dosha(raw)
+        }
+        
+        ashtakavarga = calculate_ashtakavarga(raw)
+        
         varga_d1 = {"Ascendant": raw["ascendant"]["sign"]}
         varga_d9 = {"Ascendant": raw["ascendant"]["d9_sign"]}
         varga_d10 = {"Ascendant": raw["ascendant"]["d10_sign"]}
@@ -37,5 +52,8 @@ class ChartService:
                 "D9_Navamsha": varga_d9,
                 "D10_Dashamsha": varga_d10
             },
-            vimshottari_dasha=dasha_tree
+            vimshottari_dasha=dasha_tree,
+            yogas=yogas,
+            doshas=doshas,
+            ashtakavarga=ashtakavarga
         )

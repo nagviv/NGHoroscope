@@ -12,6 +12,17 @@ RASHI_LORDS = [
     "Jupiter", "Saturn", "Saturn", "Jupiter"
 ]
 
+# Exaltation & Debilitation signs (0-indexed)
+PLANET_DIGNITIES = {
+    "Sun": {"exalted": 0, "debilitated": 6, "own": [4]},
+    "Moon": {"exalted": 1, "debilitated": 7, "own": [3]},
+    "Mars": {"exalted": 9, "debilitated": 3, "own": [0, 7]},
+    "Mercury": {"exalted": 5, "debilitated": 11, "own": [2, 5]},
+    "Jupiter": {"exalted": 3, "debilitated": 9, "own": [8, 11]},
+    "Venus": {"exalted": 11, "debilitated": 5, "own": [1, 6]},
+    "Saturn": {"exalted": 6, "debilitated": 0, "own": [9, 10]}
+}
+
 NAKSHATRAS = [
     "Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra",
     "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni",

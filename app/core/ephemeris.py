@@ -5,7 +5,6 @@ from app.core.constants import RASHIS, NAKSHATRAS, PLANET_IDS
 from app.core.divisional import compute_d9_navamsha, compute_d10_dashamsha
 
 def to_julian_day(dt: datetime, tz_offset_hours: float) -> float:
-    """Converts local datetime with time zone offset to UTC Julian Day."""
     decimal_hour = dt.hour + (dt.minute / 60.0) + (dt.second / 3600.0)
     utc_hour = decimal_hour - tz_offset_hours
     
@@ -50,7 +49,6 @@ def compute_chart_raw(
     swe.set_sid_mode(ayanamsa)
     jd_ut = to_julian_day(birth_dt, tz_offset)
     
-    # 1. House Cusps & Ascendant (Lagna)
     cusps, ascmc = swe.houses_ex(jd_ut, latitude, longitude, b'E', swe.FLG_SIDEREAL)
     asc_deg = ascmc[0] % 360.0
     asc_rashi_idx = int(asc_deg // 30)
@@ -67,7 +65,6 @@ def compute_chart_raw(
         "d10_sign": RASHIS[compute_d10_dashamsha(asc_deg)]
     }
     
-    # 2. Planetary Calculations
     planets_data = {}
     for name, pid in PLANET_IDS.items():
         res, _ = swe.calc_ut(jd_ut, pid, swe.FLG_SIDEREAL | swe.FLG_SPEED)
@@ -91,7 +88,6 @@ def compute_chart_raw(
             "d10_sign": RASHIS[compute_d10_dashamsha(lon)]
         }
         
-    # 3. Derive Ketu (180° directly opposite to Rahu)
     rahu_lon = planets_data["Rahu"]["longitude"]
     ketu_lon = (rahu_lon + 180.0) % 360.0
     ketu_rashi_idx = int(ketu_lon // 30)
