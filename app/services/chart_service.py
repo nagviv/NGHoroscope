@@ -13,15 +13,11 @@ class ChartService:
     def generate_natal_chart(req: BirthDetailsRequest) -> NatalChartResponse:
         birth_dt = datetime(req.year, req.month, req.day, req.hour, req.minute, req.second)
         raw = compute_chart_raw(birth_dt, req.timezone_offset, req.latitude, req.longitude)
-        moon_lon = raw["planets"]["Moon"]["longitude"]
-        moon_sign_idx = raw["planets"]["Moon"]["sign_index"]
-        dasha_tree = calculate_vimshottari(moon_lon, birth_dt)
-        yogas = detect_yogas(raw)
-        saturn_sign_idx = raw["planets"]["Saturn"]["sign_index"]
-        doshas = {"mangal_dosha": check_mangal_dosha(raw), "sade_sati": check_sade_sati(moon_sign_idx, saturn_sign_idx), "kaal_sarp": check_kaal_sarp_dosha(raw)}
-        ashtakavarga = calculate_ashtakavarga(raw)
-        shadbala = calculate_shadbala_summary(raw)
-        v_d1 = {"Ascendant": raw["ascendant"]["sign"], **{p: d["sign"] for p, d in raw["planets"].items()}}
-        v_d9 = {"Ascendant": raw["ascendant"]["d9_sign"], **{p: d["d9_sign"] for p, d in raw["planets"].items()}}
-        v_d10 = {"Ascendant": raw["ascendant"]["d10_sign"], **{p: d["d10_sign"] for p, d in raw["planets"].items()}}
-        return NatalChartResponse(ascendant=raw["ascendant"], planets=raw["planets"], vargas={"D1_Rashi": v_d1, "D9_Navamsha": v_d9, "D10_Dashamsha": v_d10}, vimshottari_dasha=dasha_tree, yogas=yogas, doshas=doshas, ashtakavarga=ashtakavarga, shadbala=shadbala)
+        dasha_tree = calculate_vimshottari(raw["planets"]["Moon"]["longitude"], birth_dt)
+        return NatalChartResponse(
+            ascendant=raw["ascendant"], planets=raw["planets"],
+            vargas={"D1_Rashi": {p: d["sign"] for p, d in raw["planets"].items()}},
+            vimshottari_dasha=dasha_tree, yogas=detect_yogas(raw),
+            doshas={"mangal_dosha": check_mangal_dosha(raw), "sade_sati": check_sade_sati(0, 0), "kaal_sarp": check_kaal_sarp_dosha(raw)},
+            ashtakavarga=calculate_ashtakavarga(raw), shadbala=calculate_shadbala_summary(raw)
+        )

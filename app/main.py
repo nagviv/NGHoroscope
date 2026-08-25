@@ -8,11 +8,11 @@ from app.models.entities import User, SavedProfile
 from app.core.auth import hash_password, verify_password, create_access_token, get_current_user
 from app.models.requests import (
     BirthDetailsRequest, MatchMakingRequest, AIQuestionRequest, TransitRequest,
-    UserRegisterRequest, UserLoginRequest, SaveProfileRequest, MuhurtaRequest, VarshaphalaRequest
+    UserRegisterRequest, UserLoginRequest, SaveProfileRequest, MuhurtaRequest, VarshaphalaRequest, ProgressionRequest
 )
 from app.models.responses import (
     NatalChartResponse, MatchMakingResponse, AIAnswerResponse, TransitResponse,
-    PanchangResponse, JaiminiResponse, KPResponse, MuhurtaResponse, UserAuthResponse, ProfileResponse, KakshyaResponse, VarshaphalaResponse, SBCResponse, KotaResponse
+    PanchangResponse, JaiminiResponse, KPResponse, MuhurtaResponse, UserAuthResponse, ProfileResponse, KakshyaResponse, VarshaphalaResponse, SBCResponse, KotaResponse, ProgressionResponse
 )
 from app.services.chart_service import ChartService
 from app.services.match_service import MatchService
@@ -28,13 +28,14 @@ from app.services.kakshya_service import KakshyaService
 from app.services.varshaphala_service import VarshaphalaService
 from app.core.sbc import calculate_sarvatobhadra_chakra
 from app.core.kota import calculate_kota_chakra
+from app.core.progressions import calculate_progressions
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Jyotish Ultimate Platform API",
-    description="Comprehensive Astrological Engine with Sarvatobhadra & Kota Chakra",
-    version="15.0.0"
+    title="Jyotish Platform Ultimate (Vedic, KP, Jaimini, Western Progressions)",
+    description="Comprehensive Astrological Engine with Secondary Progressions & Solar Arc",
+    version="16.0.0"
 )
 
 app.add_middleware(
@@ -47,7 +48,7 @@ app.add_middleware(
 
 @app.get("/health", tags=["Status"])
 def health_check():
-    return {"status": "healthy", "version": "15.0.0", "service": "jyotish-ultimate-engine"}
+    return {"status": "healthy", "version": "16.0.0", "service": "jyotish-ultimate-suite"}
 
 # AUTH & PROFILES
 @app.post("/api/v1/auth/register", response_model=UserAuthResponse, tags=["Auth"])
@@ -87,9 +88,15 @@ def save_profile(payload: SaveProfileRequest, user: User = Depends(get_current_u
 def create_natal_chart(payload: BirthDetailsRequest):
     return ChartService.generate_natal_chart(payload)
 
+@app.post("/api/v1/chart/progressions", response_model=ProgressionResponse, tags=["Western Overlay"])
+def get_secondary_progressions(payload: ProgressionRequest):
+    """Calculates Western Secondary Progressions (Day-for-a-Year) and Solar Arc Directions."""
+    b = payload.birth_details
+    birth_dt = datetime(b.year, b.month, b.day, b.hour, b.minute, b.second)
+    return calculate_progressions(birth_dt, payload.target_year, b.timezone_offset, b.latitude, b.longitude)
+
 @app.post("/api/v1/chart/sbc", response_model=SBCResponse, tags=["Chakras"])
 def get_sarvatobhadra_chakra(payload: TransitRequest):
-    """Calculates Sarvatobhadra Chakra 81-Square Grid and Vedha Piercing Aspects."""
     b = payload.birth_details
     birth_dt = datetime(b.year, b.month, b.day, b.hour, b.minute, b.second)
     target_dt = datetime(payload.target_year, payload.target_month, payload.target_day, 12, 0, 0)
@@ -97,7 +104,6 @@ def get_sarvatobhadra_chakra(payload: TransitRequest):
 
 @app.post("/api/v1/chart/kota", response_model=KotaResponse, tags=["Chakras"])
 def get_kota_chakra(payload: TransitRequest):
-    """Calculates Kota Chakra 4-Zone Fortress Defense System."""
     b = payload.birth_details
     birth_dt = datetime(b.year, b.month, b.day, b.hour, b.minute, b.second)
     target_dt = datetime(payload.target_year, payload.target_month, payload.target_day, 12, 0, 0)

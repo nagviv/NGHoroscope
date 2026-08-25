@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NatalChartResponse, JaiminiResponse, KPResponse, MuhurtaResponse, KakshyaResponse, MatchMakingResponse, VarshaphalaResponse, SBCResponse, KotaResponse } from './types/astrology';
+import { NatalChartResponse, JaiminiResponse, KPResponse, MuhurtaResponse, KakshyaResponse, MatchMakingResponse, VarshaphalaResponse, SBCResponse, KotaResponse, ProgressionResponse } from './types/astrology';
 import { translations, Language } from './utils/i18n';
 import { NorthIndianChart } from './components/NorthIndianChart';
 import { SouthIndianChart } from './components/SouthIndianChart';
@@ -11,6 +11,7 @@ import { KakshyaPanel } from './components/KakshyaPanel';
 import { SynastryPanel } from './components/SynastryPanel';
 import { VarshaphalaPanel } from './components/VarshaphalaPanel';
 import { ChakraPanel } from './components/ChakraPanel';
+import { ProgressionsPanel } from './components/ProgressionsPanel';
 import { AIQuestionPanel } from './components/AIQuestionPanel';
 import { Download, Loader2, Globe } from 'lucide-react';
 
@@ -28,7 +29,7 @@ export default function App() {
     groom: { year: 1994, month: 11, day: 20, hour: 18, minute: 45, second: 0, timezone_offset: 5.5, latitude: 19.0760, longitude: 72.8777 }
   });
 
-  const [activeTab, setActiveTab] = useState<'Parashara' | 'KP' | 'Jaimini' | 'Muhurta' | 'Kakshya' | 'Synastry' | 'Varshaphala' | 'Chakras'>('Parashara');
+  const [activeTab, setActiveTab] = useState<'Parashara' | 'KP' | 'Jaimini' | 'Muhurta' | 'Kakshya' | 'Synastry' | 'Varshaphala' | 'Chakras' | 'Progressions'>('Parashara');
   const [chartStyle, setChartStyle] = useState<'North' | 'South' | 'East'>('North');
   const [chartData, setChartData] = useState<NatalChartResponse | null>(null);
   const [jaiminiData, setJaiminiData] = useState<JaiminiResponse | null>(null);
@@ -39,6 +40,7 @@ export default function App() {
   const [varshaphalaData, setVarshaphalaData] = useState<VarshaphalaResponse | null>(null);
   const [sbcData, setSbcData] = useState<SBCResponse | null>(null);
   const [kotaData, setKotaData] = useState<KotaResponse | null>(null);
+  const [progressionData, setProgressionData] = useState<ProgressionResponse | null>(null);
   const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
@@ -51,6 +53,7 @@ export default function App() {
     fetch('/api/v1/chart/varshaphala', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ birth_details: formData, target_year: 2026 }) }).then(res => res.json()).then(data => setVarshaphalaData(data));
     fetch('/api/v1/chart/sbc', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ birth_details: formData, target_year: 2026, target_month: 8, target_day: 25 }) }).then(res => res.json()).then(data => setSbcData(data));
     fetch('/api/v1/chart/kota', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ birth_details: formData, target_year: 2026, target_month: 8, target_day: 25 }) }).then(res => res.json()).then(data => setKotaData(data));
+    fetch('/api/v1/chart/progressions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ birth_details: formData, target_year: 2026 }) }).then(res => res.json()).then(data => setProgressionData(data));
   }, []);
 
   const downloadPDF = async () => {
@@ -90,7 +93,7 @@ export default function App() {
             {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />} {t.exportPdf}
           </button>
           <div className="flex gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs">
-            {(['Parashara', 'KP', 'Jaimini', 'Muhurta', 'Kakshya', 'Synastry', 'Varshaphala', 'Chakras'] as const).map(tab => (
+            {(['Parashara', 'KP', 'Jaimini', 'Muhurta', 'Kakshya', 'Synastry', 'Varshaphala', 'Chakras', 'Progressions'] as const).map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)} className={`px-3 py-1.5 rounded-lg ${activeTab === tab ? 'bg-amber-500 text-slate-950 font-bold' : 'text-slate-400'}`}>
                 {t[tab.toLowerCase() as keyof typeof t] || tab}
               </button>
@@ -118,6 +121,7 @@ export default function App() {
           {activeTab === 'Synastry' && synastryData && <SynastryPanel data={synastryData} />}
           {activeTab === 'Varshaphala' && varshaphalaData && <VarshaphalaPanel data={varshaphalaData} />}
           {activeTab === 'Chakras' && sbcData && kotaData && <ChakraPanel sbcData={sbcData} kotaData={kotaData} />}
+          {activeTab === 'Progressions' && progressionData && <ProgressionsPanel data={progressionData} />}
         </div>
         <div className="lg:col-span-6 space-y-6">
           <AIQuestionPanel birthDetails={formData} />

@@ -149,7 +149,6 @@ class VarshaphalaResponse(BaseModel):
     varsha_ascendant: EntityPosition
     varsha_planets: Dict[str, PlanetPosition]
     muntha: Dict[str, Any]
-    panchadhikaris: Dict[str, str]
     varsheshwara: str
     tajika_yogas: List[Dict[str, Any]]
 
@@ -162,7 +161,13 @@ class SBCResponse(BaseModel):
 class KotaResponse(BaseModel):
     transit_date: str
     kota_swami: str
-    kota_pala_nakshatra: str
     fortress_zones: Dict[str, List[str]]
-    stambha_siege_malefics: List[str]
     defense_status: str
+
+class ProgressionResponse(BaseModel):
+    target_year: int
+    progressed_age: int
+    solar_arc_degrees: float
+    progressed_planets: Dict[str, PlanetPosition]
+    solar_arc_planets: Dict[str, Dict[str, Any]]
+    progressed_aspects: List[Dict[str, Any]]

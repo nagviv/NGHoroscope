@@ -88,7 +88,6 @@ export interface KakshyaResponse {
     kakshya_number: number;
     kakshya_lord: string;
     kakshya_span: string;
-    has_bindu: boolean;
     fructification_status: string;
   }>;
 }
@@ -98,8 +97,7 @@ export interface VarshaphalaResponse {
   solar_return_date: string;
   varsha_ascendant: EntityPosition;
   varsha_planets: Record<string, PlanetPosition>;
-  muntha: { sign: string; sign_index: number; lord: string; completed_years: number };
-  panchadhikaris: Record<string, string>;
+  muntha: { sign: string; lord: string; completed_years: number };
   varsheshwara: string;
   tajika_yogas: { name: string; planets: string; nature: string; description: string }[];
 }
@@ -107,17 +105,24 @@ export interface VarshaphalaResponse {
 export interface SBCResponse {
   transit_date: string;
   sensitive_nakshatras: Record<string, string>;
-  active_vedhas: { planet: string; nature: string; transit_nakshatra: string; target_sensitive_point: string; vedha_type: string; impact: string }[];
+  active_vedhas: { planet: string; transit_nakshatra: string; target: string; vedha_type: string }[];
   defense_verdict: string;
 }
 
 export interface KotaResponse {
   transit_date: string;
   kota_swami: string;
-  kota_pala_nakshatra: string;
   fortress_zones: Record<string, string[]>;
-  stambha_siege_malefics: string[];
   defense_status: string;
+}
+
+export interface ProgressionResponse {
+  target_year: number;
+  progressed_age: number;
+  solar_arc_degrees: number;
+  progressed_planets: Record<string, PlanetPosition>;
+  solar_arc_planets: Record<string, { longitude: number; sign: string; degree_in_sign: number }>;
+  progressed_aspects: { progressed_planet: string; natal_planet: string; aspect: string; angle: number; orb: number; signification: string }[];
 }
 
 export interface MatchMakingResponse {
