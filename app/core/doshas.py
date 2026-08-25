@@ -2,8 +2,6 @@ from typing import Dict, Any
 
 def check_mangal_dosha(chart: Dict[str, Any]) -> Dict[str, Any]:
     mars = chart["planets"]["Mars"]
-    moon = chart["planets"]["Moon"]
-    venus = chart["planets"]["Venus"]
     h_lagna = mars["house"]
     dosha_houses = [1, 2, 4, 7, 8, 12]
     is_present = h_lagna in dosha_houses

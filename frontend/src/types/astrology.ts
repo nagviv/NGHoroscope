@@ -38,6 +38,14 @@ export interface NatalChartResponse {
   shadbala: Record<string, { total_virupas: number; total_rupas: number; strength_ratio: number; is_strong: boolean }>;
 }
 
+export interface JaiminiResponse {
+  karakas: Record<string, { planet: string; degree_in_sign: number; sign: string; d9_sign: string; house: number; signification: string }>;
+  atmakaraka_planet: string;
+  karakamsha_sign: string;
+  arudha_lagna: { house: number; sign: string };
+  chara_dasha: { sign: string; lord: string; duration_years: number; start_date: string; end_date: string }[];
+}
+
 export interface AIAnswerResponse {
   question: string;
   category: string;

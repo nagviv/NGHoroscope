@@ -1,16 +1,24 @@
-# Jyotish Complete Full-Stack Astrology Platform (Phase 6)
+# Jyotish Complete Full-Stack Astrology Platform (Phase 7 - Jaimini Engine)
 
-Production-grade Vedic Astrology platform featuring high-precision calculations, classical rules microservice, React frontend, **PDF Kundli Report Generator (ReportLab)**, **Shadbala (Planetary Strengths)**, and automated **GitHub Actions CI/CD**.
+Production-grade Vedic Astrology platform featuring Parashara and **Jaimini Astrological Subsystems**, high-precision ephemeris calculations, React frontend with multi-style SVG charts, PDF generation, and CI/CD pipelines.
 
-## New Additions in Phase 6
-1. **Exportable PDF Kundli Report (`/api/v1/chart/pdf`)**:
-   - Generates a multi-page PDF Kundli report containing Planetary Details, D1 Rashi, D9 Navamsha, Active Yogas, Doshas, and Vimshottari Dasha timeline.
-2. **Shadbala Strength Module (`app/core/shadbala.py`)**:
-   - Computes Sthana Bala, Dig Bala, Kaala Bala, Cheshta Bala, and Naisargika Bala to calculate planetary virupas and rupas.
-3. **GitHub Actions CI/CD Pipeline (`.github/workflows/ci.yml`)**:
-   - Automated testing on push/PR for both Python backend (pytest) and React frontend (TypeScript compilation and build).
+## What's Added in Phase 7 (Jaimini Sutras Engine)
+1. **7 Chara Karakas Calculation (`app/core/jaimini.py`)**:
+   - Computes the 7 non-Rahu Karakas based on decreasing degree within signs:
+     - **Atmakaraka (AK)**: Soul signifier & life purpose
+     - **Amatyakaraka (AmK)**: Career, intellect & professional status
+     - **Bhratrikaraka (BK)**: Siblings, gurus & courage
+     - **Matrikaraka (MK)**: Mother, emotional sanctuary & vehicles
+     - **Putrakaraka (PK)**: Children, creativity & intellect
+     - **Gnatikaraka (GK)**: Obstacles, competition & disease
+     - **Darakaraka (DK)**: Spouse, romantic partners & alliances
+2. **Karakamsha & Arudha Padas**:
+   - Identifies the Navamsha sign occupied by Atmakaraka (Karakamsha Lagna).
+   - Computes Arudha Lagna (AL) and Upapada Lagna (UL).
+3. **Jaimini Chara Dasha Timeline**:
+   - Computes sign-based major period cycles for lifetime timing of events.
 
-## Quick Start with Docker
+## Quick Start
 ```bash
 docker-compose up --build
 ```

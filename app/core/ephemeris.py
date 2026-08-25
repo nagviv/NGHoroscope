@@ -32,7 +32,6 @@ def calculate_nakshatra(longitude: float) -> Dict[str, Any]:
 def compute_chart_raw(birth_dt: datetime, tz_offset: float, latitude: float, longitude: float, ayanamsa: int = swe.SIDM_LAHIRI) -> Dict[str, Any]:
     swe.set_sid_mode(ayanamsa)
     jd_ut = to_julian_day(birth_dt, tz_offset)
-    
     cusps, ascmc = swe.houses_ex(jd_ut, latitude, longitude, b'E', swe.FLG_SIDEREAL)
     asc_deg = ascmc[0] % 360.0
     asc_rashi_idx = int(asc_deg // 30)

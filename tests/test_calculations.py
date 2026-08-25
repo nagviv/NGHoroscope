@@ -8,12 +8,16 @@ def test_health():
     assert res.status_code == 200
     assert res.json()["status"] == "healthy"
 
-def test_pdf_report_endpoint():
+def test_jaimini_endpoint():
     payload = {
         "year": 1995, "month": 8, "day": 15, "hour": 14, "minute": 30, "second": 0,
         "timezone_offset": 5.5, "latitude": 17.3850, "longitude": 78.4867
     }
-    res = client.post("/api/v1/chart/pdf", json=payload)
+    res = client.post("/api/v1/chart/jaimini", json=payload)
     assert res.status_code == 200
-    assert res.headers["content-type"] == "application/pdf"
-    assert len(res.content) > 1000
+    data = res.json()
+    assert "karakas" in data
+    assert "atmakaraka_planet" in data
+    assert "karakamsha_sign" in data
+    assert "arudha_lagna" in data
+    assert len(data["chara_dasha"]) == 12

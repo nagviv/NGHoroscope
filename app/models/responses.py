@@ -78,3 +78,10 @@ class PanchangResponse(BaseModel):
     nakshatra: Dict[str, Any]
     yoga_index: int
     rahu_kaal: str
+
+class JaiminiResponse(BaseModel):
+    karakas: Dict[str, Any]
+    atmakaraka_planet: str
+    karakamsha_sign: str
+    arudha_lagna: Dict[str, Any]
+    chara_dasha: List[Dict[str, Any]]
