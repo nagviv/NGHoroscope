@@ -12,7 +12,7 @@ from app.models.requests import (
 )
 from app.models.responses import (
     NatalChartResponse, MatchMakingResponse, AIAnswerResponse, TransitResponse,
-    PanchangResponse, JaiminiResponse, KPResponse, MuhurtaResponse, UserAuthResponse, ProfileResponse
+    PanchangResponse, JaiminiResponse, KPResponse, MuhurtaResponse, UserAuthResponse, ProfileResponse, KakshyaResponse
 )
 from app.services.chart_service import ChartService
 from app.services.match_service import MatchService
@@ -23,13 +23,14 @@ from app.services.pdf_service import PDFService
 from app.services.jaimini_service import JaiminiService
 from app.services.kp_service import KPService
 from app.services.muhurta_service import MuhurtaService
+from app.services.kakshya_service import KakshyaService
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Jyotish Platform API (Vedic, KP, Jaimini, Muhurta & Workers)",
-    description="Comprehensive Astrological Calculation Suite with Background Notifications",
-    version="11.0.0"
+    title="Jyotish Platform API (Vedic, KP, Jaimini, Muhurta & Kakshya)",
+    description="Comprehensive Astrological Engine with Kakshya Ashtakavarga Transits",
+    version="12.0.0"
 )
 
 app.add_middleware(
@@ -42,7 +43,7 @@ app.add_middleware(
 
 @app.get("/health", tags=["Status"])
 def health_check():
-    return {"status": "healthy", "version": "11.0.0", "service": "jyotish-full-suite"}
+    return {"status": "healthy", "version": "12.0.0", "service": "jyotish-complete-engine"}
 
 # AUTH & PROFILES
 @app.post("/api/v1/auth/register", response_model=UserAuthResponse, tags=["Auth"])
@@ -81,6 +82,11 @@ def save_profile(payload: SaveProfileRequest, user: User = Depends(get_current_u
 @app.post("/api/v1/chart/natal", response_model=NatalChartResponse, tags=["Charts"])
 def create_natal_chart(payload: BirthDetailsRequest):
     return ChartService.generate_natal_chart(payload)
+
+@app.post("/api/v1/chart/kakshya", response_model=KakshyaResponse, tags=["Ashtakavarga"])
+def get_kakshya_transits(payload: TransitRequest):
+    """Calculates Ashtakavarga 8-Kakshya precision transit fruit scores."""
+    return KakshyaService.calculate_kakshya_system(payload)
 
 @app.post("/api/v1/muhurta/calculate", response_model=MuhurtaResponse, tags=["Muhurta"])
 def get_muhurta_analysis(payload: MuhurtaRequest):

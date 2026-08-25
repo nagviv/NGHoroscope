@@ -1,6 +1,6 @@
 import React from 'react';
 import { JaiminiResponse } from '../types/astrology';
-import { Compass, Sparkles } from 'lucide-react';
+import { Compass } from 'lucide-react';
 
 export const JaiminiPanel: React.FC<{ data: JaiminiResponse }> = ({ data }) => {
   return (

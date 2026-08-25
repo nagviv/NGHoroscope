@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NatalChartResponse, JaiminiResponse, KPResponse, MuhurtaResponse } from './types/astrology';
+import { NatalChartResponse, JaiminiResponse, KPResponse, MuhurtaResponse, KakshyaResponse } from './types/astrology';
 import { translations, Language } from './utils/i18n';
 import { NorthIndianChart } from './components/NorthIndianChart';
 import { SouthIndianChart } from './components/SouthIndianChart';
@@ -7,6 +7,7 @@ import { EastIndianChart } from './components/EastIndianChart';
 import { JaiminiPanel } from './components/JaiminiPanel';
 import { KPPanel } from './components/KPPanel';
 import { MuhurtaPanel } from './components/MuhurtaPanel';
+import { KakshyaPanel } from './components/KakshyaPanel';
 import { AIQuestionPanel } from './components/AIQuestionPanel';
 import { Download, Loader2, Globe } from 'lucide-react';
 
@@ -19,12 +20,13 @@ export default function App() {
     timezone_offset: 5.5, latitude: 17.3850, longitude: 78.4867
   });
 
-  const [activeTab, setActiveTab] = useState<'Parashara' | 'KP' | 'Jaimini' | 'Muhurta'>('Parashara');
+  const [activeTab, setActiveTab] = useState<'Parashara' | 'KP' | 'Jaimini' | 'Muhurta' | 'Kakshya'>('Parashara');
   const [chartStyle, setChartStyle] = useState<'North' | 'South' | 'East'>('North');
   const [chartData, setChartData] = useState<NatalChartResponse | null>(null);
   const [jaiminiData, setJaiminiData] = useState<JaiminiResponse | null>(null);
   const [kpData, setKpData] = useState<KPResponse | null>(null);
   const [muhurtaData, setMuhurtaData] = useState<MuhurtaResponse | null>(null);
+  const [kakshyaData, setKakshyaData] = useState<KakshyaResponse | null>(null);
   const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
@@ -39,6 +41,9 @@ export default function App() {
 
     fetch('/api/v1/muhurta/calculate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ year: 2026, month: 8, day: 25, latitude: 17.3850, longitude: 78.4867 }) })
       .then(res => res.json()).then(data => setMuhurtaData(data));
+
+    fetch('/api/v1/chart/kakshya', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ birth_details: formData, target_year: 2026, target_month: 8, target_day: 25 }) })
+      .then(res => res.json()).then(data => setKakshyaData(data));
   }, []);
 
   const downloadPDF = async () => {
@@ -91,7 +96,7 @@ export default function App() {
           </button>
           
           <div className="flex gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs">
-            {(['Parashara', 'KP', 'Jaimini', 'Muhurta'] as const).map(tab => (
+            {(['Parashara', 'KP', 'Jaimini', 'Muhurta', 'Kakshya'] as const).map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)} className={`px-3 py-1.5 rounded-lg ${activeTab === tab ? 'bg-amber-500 text-slate-950 font-bold' : 'text-slate-400'}`}>
                 {t[tab.toLowerCase() as keyof typeof t] || tab}
               </button>
@@ -116,6 +121,7 @@ export default function App() {
           {activeTab === 'KP' && kpData && <KPPanel data={kpData} />}
           {activeTab === 'Jaimini' && jaiminiData && <JaiminiPanel data={jaiminiData} />}
           {activeTab === 'Muhurta' && muhurtaData && <MuhurtaPanel data={muhurtaData} />}
+          {activeTab === 'Kakshya' && kakshyaData && <KakshyaPanel data={kakshyaData} />}
         </div>
         <div className="lg:col-span-6 space-y-6">
           <AIQuestionPanel birthDetails={formData} />

@@ -139,3 +139,7 @@ class MuhurtaResponse(BaseModel):
     horas: List[Dict[str, Any]]
     special_spans: Dict[str, Any]
     activity_suitability: Dict[str, Any]
+
+class KakshyaResponse(BaseModel):
+    transit_date: str
+    kakshya_transits: Dict[str, Dict[str, Any]]

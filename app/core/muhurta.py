@@ -26,7 +26,6 @@ HORA_ORDER = ["Sun", "Venus", "Mercury", "Moon", "Saturn", "Jupiter", "Mars"]
 def calculate_muhurta_timeline(target_date: datetime) -> Dict[str, Any]:
     weekday_idx = (target_date.weekday() + 1) % 7
     sunrise = target_date.replace(hour=6, minute=0, second=0)
-    sunset = target_date.replace(hour=18, minute=0, second=0)
     choghadiya_len = timedelta(minutes=90.0)
     
     day_choghadiyas = []
@@ -54,7 +53,7 @@ def calculate_muhurta_timeline(target_date: datetime) -> Dict[str, Any]:
             "lord": h_lord,
             "start_time": h_start.strftime("%H:%M"),
             "end_time": h_end.strftime("%H:%M"),
-            "suitability": "Auspicious for commercial & intellectual ventures" if h_lord in ["Jupiter", "Mercury", "Venus"] else "Routine tasks"
+            "suitability": "Auspicious for commercial ventures" if h_lord in ["Jupiter", "Mercury", "Venus"] else "Routine tasks"
         })
         h_start = h_end
 
@@ -66,12 +65,11 @@ def calculate_muhurta_timeline(target_date: datetime) -> Dict[str, Any]:
         "horas": horas,
         "special_spans": {
             "abhijit_muhurat": {"start_time": "11:36", "end_time": "12:24", "quality": "Supreme Auspicious Window"},
-            "brahma_muhurta": {"start_time": "04:24", "end_time": "05:12", "quality": "Ideal for Meditation & Sadhana"},
+            "brahma_muhurta": {"start_time": "04:24", "end_time": "05:12", "quality": "Ideal for Meditation"},
             "rahu_kaal": rahu_periods[weekday_idx]
         },
         "activity_suitability": {
             "Vivaha (Marriage)": {"score": 85, "verdict": "Favorable during Amrit / Shubh Choghadiya"},
-            "Griha Pravesh (Housewarming)": {"score": 80, "verdict": "Favorable during Morning Shubha window"},
-            "Vanijya (Business Launch)": {"score": 90, "verdict": "Highly auspicious during Labha Choghadiya"}
+            "Griha Pravesh": {"score": 80, "verdict": "Favorable during Morning Shubha window"}
         }
     }

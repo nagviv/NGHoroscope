@@ -80,6 +80,19 @@ export interface MuhurtaResponse {
   activity_suitability: Record<string, { score: number; verdict: string }>;
 }
 
+export interface KakshyaResponse {
+  transit_date: string;
+  kakshya_transits: Record<string, {
+    sign: string;
+    degree_in_sign: number;
+    kakshya_number: number;
+    kakshya_lord: string;
+    kakshya_span: string;
+    has_bindu: boolean;
+    fructification_status: string;
+  }>;
+}
+
 export interface SavedProfile {
   id: number;
   name: string;

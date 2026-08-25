@@ -1,15 +1,13 @@
-# Jyotish Complete Full-Stack Astrology Platform (Phase 11 - Background Worker & Notifications)
+# Jyotish Complete Full-Stack Astrology Platform (Phase 12 - Kakshya Engine)
 
-Production-ready Vedic Astrology platform featuring **Celery & Redis automated background workers** for scheduled daily transits, personalized Panchang, and Dasha transition alerts alongside Parashara, Jaimini, KP, and Muhurta calculation suites.
+Production-grade Vedic Astrology platform featuring **Ashtakavarga Kakshya Transit Timing**, Elective Muhurta, Celery & Redis background workers, Krishnamurti Paddhati (KP), Jaimini, Parashara, and JWT auth.
 
-## What's Added in Phase 11
-1. **Celery Worker & Beat Scheduler (`app/worker.py`)**:
-   - Automated daily task execution (`dispatch_daily_astrological_digest`).
-   - Automated periodic check for Dasha transitions and Sade Sati status changes (`check_dasha_transitions`).
-2. **Notification Dispatch Service (`app/services/notification_service.py`)**:
-   - Dispatches formatted astrological summaries via Email (SMTP) and Webhook payloads (ready for WhatsApp/SMS gateways like Twilio/Meta Business API).
-3. **Containerized Worker & Redis Service (`docker-compose.yml`)**:
-   - Adds Redis broker/backend and Celery worker/beat containers alongside the FastAPI backend and React frontend.
+## What's Added in Phase 12
+1. **Ashtakavarga Kakshya Precision Engine (`app/core/kakshya.py`)**:
+   - Divides each 30° sign into 8 equal Kakshyas (3°45' each) ruled by the 7 planets and Ascendant.
+   - Evaluates active Gochar transiting planets against natal BAV point matrices to identify auspicious/inauspicious transit degree spans.
+2. **Frontend Kakshya Transit Inspector (`KakshyaPanel.tsx`)**:
+   - Visual inspection grid of the 8 Kakshya zones per sign and active transiting grahas.
 
 ## Quick Start with Docker
 ```bash
